@@ -1,0 +1,8 @@
+.jgrid span.state.downarrow,
+.jgrid span.state.uparrow,
+.jgrid span.state.downarrow_disabled,
+.jgrid span.state.uparrow_disabled
+{
+    width:13px;
+    height:13px;
+}

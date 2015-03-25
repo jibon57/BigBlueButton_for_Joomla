@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config>
+   <params>
+   		<param name="example" type="text" default="example" label="Example" description="You can change this in components backend in the config.xml" />
+   </params>
+   
+	<fieldset
+		name="server"
+		label="Server Info"
+		description="">
+		<field name="salt" type="text" default="" label="Salt" description="Salt of BigBlueButton server:','Can be found in /var/lib/tomcat6/webapps/bigbluebutton/WEB-INF/classes/bigbluebutton.properties"  />
+		<field name="url" type="text" default="" label="URL" description="URL of BigBlueButton server:','eg. http://example.com/bigbluebutton/"  />
+		<field name="dialNumber" type="text" default="" label="Dial Number" description="The main number to call into. Optional"  />		
+	</fieldset>	
+		   
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			class="inputbox"
+			validate="rules"
+			filter="rules"
+			component="com_bigbluebutton"
+			section="component" />
+	</fieldset>	
+</config>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade" version="1.6">
+	<name>Bigbluebutton</name>
+	<creationDate>2015-03-05</creationDate>
+	<author>Jibon Lawrence Costa</author>
+	<authorEmail>jiboncosta57@gmail.com</authorEmail>
+	<authorUrl>http://extensions.hoicoimasti.com/</authorUrl>
+	<copyright>Copyright (C) 2015 Jibon Lawrence Costa Open Source Matters. All rights reserved.</copyright>	
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>1.2</version>
+	<description></description>
+	<installfile></installfile>
+	<uninstallfile></uninstallfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>
+	<files folder="site">
+			<filename>bigbluebutton.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>			
+			<folder>views</folder>
+	</files>	
+	
+	<administration>
+		<menu link="index.php?option=com_bigbluebutton">Bigbluebutton</menu>
+			<submenu>
+		  <menu  link="option=com_bigbluebutton&amp;view=meetings">Meetings</menu>
+		  <menu  link="option=com_bigbluebutton&amp;view=records">Records</menu>
+
+			</submenu>
+		<files folder="admin">
+			<filename>config.xml</filename>
+			<filename>bigbluebutton.php</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>access.xml</filename>			
+			<folder>assets</folder>
+			<folder>elements</folder>				
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>manifest</folder>			
+			<folder>models</folder>
+			<folder>sql</folder>			
+			<folder>tables</folder>
+			<folder>views</folder>									
+		</files>	
+        <languages folder="admin">
+        	<language tag="en-GB">language/en-GB.com_bigbluebutton.ini</language>
+            <language tag="de-DE">language/de-DE.com_bigbluebutton.ini</language>
+        	<language tag="en-GB">language/en-GB.com_bigbluebutton.sys.ini</language>
+            <language tag="de-DE">language/de-DE.com_bigbluebutton.sys.ini</language>                           
+		</languages>		
+	</administration>
+</extension>

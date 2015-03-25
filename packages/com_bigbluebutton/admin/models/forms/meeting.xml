@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields>
+
+		<field
+			name="id"
+			type="hidden"
+			default="0"
+			required="true"
+			readonly="true"/>							
+															
+		<field
+			id="meetingName"
+			name="meetingName"
+			type="text"
+			required="true"
+			label="Meeting Name"
+			description="meetingName_Desc"
+			class="inputbox"
+			size="40"/>						
+								
+														
+		<field
+			id="meetingVersion"
+			name="meetingVersion"
+			type="text"
+			required="false"
+			label="Meeting Version"
+			description="meetingVersion_Desc"
+			class="inputbox"
+			size="40"/>						
+								
+														
+		<field
+			id="moderatorPW"
+			name="moderatorPW"
+			type="text"
+			required="true"
+			label="Moderator Password"
+			description="moderatorPW_Desc"
+			class="inputbox"
+			size="40"/>						
+								
+														
+		<field
+			id="attendeePW"
+			name="attendeePW"
+			type="text"
+			required="true"
+			label="Attendee Password"
+			description="attendeePW_Desc"
+			class="inputbox"
+			size="40"/>
+		<field
+			id="voiceBridge"
+			name="voiceBridge"
+			type="text"
+			required="true"
+			label="Voice Bridge"
+			description="5 digit PIN to join voice. Required"
+			class="inputbox"
+			default="12345"
+			size="10"/>
+		<field
+			id="maxParticipants"
+			name="maxParticipants"
+			type="text"
+			required="true"
+			label="Max Participants"
+			description="Optional. -1 = unlimitted. Not supported in BBB. [number]"
+			class="inputbox"
+			default="-1"
+			size="5"/>
+		
+		<field
+			id="record"
+			name="record"
+			type="list"
+			required="true"
+			label="Record"
+			description="Yes will tell BBB to record the meeting."
+			class="inputbox"
+			default="true"
+			>
+			<option value="true">Yes</option>
+			<option value="false">No</option>
+		</field>
+		
+		<field
+			id="duration"
+			name="duration"
+			type="text"
+			required="true"
+			label="Recoding Duration"
+			description="Default = 0 which means no set duration in minutes. [number]"
+			class="inputbox"
+			default="0"
+			size="5"/>	
+								
+	</fields>	
+		
+</form>	
