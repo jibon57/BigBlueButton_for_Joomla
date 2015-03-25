@@ -23,15 +23,15 @@ You can perform following function:
 
 How to use this extension?
 
-> Download the zip archive. It's a Joomla package. It's content one component & one module. Both will be install automatically when you will install this package. Note: This extension will work on both Joomla 2.5 & 3.X.
+1. Download the zip archive. It's a Joomla package. It's content one component & one module. Both will be install automatically when you will install this package. Note: This extension will work on both Joomla 2.5 & 3.X.
 
-> Now go to Components Manager & select "BigBlueButton".
+2. Now go to Components Manager & select "BigBlueButton".
 
-> From Component click on "Options" button from top. In there you have to put server URL & Salt. Without this information you can't connect with your BigBlueButton server.
+3. From Component click on "Options" button from top. In there you have to put server URL & Salt. Without this information you can't connect with your BigBlueButton server.
 
-> Now add your meeting name, moderator password etc..
+4. Now add your meeting name, moderator password etc..
 
-> Go to module manager. You can see "BigBlueButton" module. Open it & placed it in your template position. That's all...
+5. Go to module manager. You can see "BigBlueButton" module. Open it & placed it in your template position. That's all...
 
  
 
