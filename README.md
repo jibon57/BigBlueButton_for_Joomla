@@ -3,10 +3,10 @@
 This extension can connect your user with BigBlueButton server from joomla. You need to setup a BigBlueButton server to use this extension. You can see server configuration documents from here: http://bigbluebutton.org/
 
 To test the extension, you can use this open server to configure and test your setup:
-
+<pre>
 url: http://test-install.blindsidenetworks.com/bigbluebutton/
 salt: 8cd8ef52e8e101574e400365b55e11a6
-
+</pre>
 Demo info:
 https://extensions.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extension-for-joomla.html
  
