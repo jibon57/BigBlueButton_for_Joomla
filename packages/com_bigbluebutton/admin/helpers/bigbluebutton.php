@@ -154,8 +154,8 @@ class BigbluebuttonHelper
     	
     	$bbb = new BigBlueButton($this->salt, $this->url);
     	$recordingsParams = array(
-		'meetingId' => $meetingId, 			
-	);
+		'meetingId' => $meetingId,
+		);
 	
 	$itsAllGood = true;
 	
@@ -174,7 +174,10 @@ class BigbluebuttonHelper
 			if ($result['returncode'] == 'SUCCESS') {
 				foreach ((array) $result as $data) {
 					$item['recordId'] = (string) $data['recordId'][0];
-					$item['playbackFormatUrl']= (string) $data['playbackFormatUrl'][0];					
+					$item['playbackFormatUrl']= (string) $data['playbackFormatUrl'][0];
+					$item['published']= (string) $data['published'][0];
+					$item['startTime']= date("j-F-Y, g:i:s A", (int) $data['startTime'][0] / 1000);		
+					$item['endTime']=  date("j-F-Y, g:i:s A", (int) $data['endTime'][0] / 1000);						
 					array_push($final, $item);
 			}
 				
@@ -224,6 +227,24 @@ class BigbluebuttonHelper
 	if ($itsAllGood == true) {
 		print_r($result);
 	}
+    }
+
+    public function getRecordingsUrl($meetingId = null) {
+    	
+    	$bbb = new BigBlueButton($this->salt, $this->url);
+    	$recordingParams = array(
+    		'meetingId' => $meetingId,
+    	);
+    	$itsAllGood = true;
+		try {$result = $bbb->getRecordingsUrl($recordingParams);}
+			catch (Exception $e) {
+				echo 'Caught exception: ', $e->getMessage(), "\n";
+				$itsAllGood = false;
+			}
+
+		if ($itsAllGood == true) {
+			print_r($result);
+		}
     }
       
 }
