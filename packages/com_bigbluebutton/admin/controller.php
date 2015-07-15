@@ -97,6 +97,13 @@ class BigbluebuttonController extends JControllerLegacy
 		jexit();
 	}
 
+	public function getRecordingsUrl($meetingId = null) {
+		$input = JFactory::getApplication()->input;
+		$recordId = $input->get('meetingId');
+		$bbb = new BigbluebuttonHelper();
+		$bbb->getRecordingsUrl($meetingId);
+	}
+
 }// class
   
 ?>
