@@ -26,7 +26,7 @@ jQuery("document").ready(function(){
 				if (! rep.recordId == "") {
 					var publishurl = '<?php echo Juri::base(); ?>index.php?option=com_bigbluebutton&task=publishRecordings&recordId='+rep.recordId;
 					var deleteurl = '<?php echo Juri::base(); ?>index.php?option=com_bigbluebutton&task=deleteRecordings&recordId='+rep.recordId;
-					result += '<tr><td>'+rep.recordId+'</td><td><a href="'+rep.playbackFormatUrl+'" target="_blank">Play Now</a></td><td><a href="'+publishurl+'">Publish Video</a>|<a href="'+deleteurl+'">Delete Video</a></td></tr>';	
+					result += '<tr><td>'+rep.startTime+'</td><td>'+rep.endTime+'</td><td>'+rep.published+'</td><td><a href="'+rep.playbackFormatUrl+'" target="_blank">Play Now</a></td><td><a href="'+publishurl+'">Publish Video</a>|<a href="'+deleteurl+'">Delete Video</a></td></tr>';	
 				$("#load").hide();
 				$("#getdata").html(result);
 				}
@@ -74,7 +74,9 @@ if($input->get('message')){
 				</td>
 			</tr>
 			<tr>
-				<th>Record Id</th>
+				<th>Started</th>
+				<th>Ended</th>
+				<th>Published</th>
 				<th>Play Back URL</th>
 				<th>Action</th>
 			</tr>
