@@ -43,7 +43,7 @@ class BigbluebuttonHelper
 			'attendeePw' => $data->attendeePW,
 			'moderatorPw' => $data->moderatorPW,
 			'logoutUrl' => JUri::base(),
-			'welcomeMsg' => 'Welcome to '.$data->meetingName,
+			'welcomeMsg' => 'Welcome to '.$data->meetingName.'.'.PHP_EOL.' To join the voice bridge for this meeting:'.PHP_EOL.'  (1) click the headset icon in the upper-left, or'.PHP_EOL.'  (2) Call '.$this->dialNumber.' and enter the pin number: '.$data->voiceBridge.'.',
 			'dialNumber' => $this->dialNumber,
 			'voiceBridge' => $data->voiceBridge,
 			'maxParticipants' => $data->maxParticipants,

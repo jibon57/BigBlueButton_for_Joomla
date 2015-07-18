@@ -44,7 +44,7 @@ jQuery("document").ready(function (){
 <div class="bigbluebutton<?php echo $params->get( 'moduleclass_sfx' ) ?>" id="meeting">
 		  <div class="form-group">
 		    <label for="Meeting"><?php echo JText::_('MEETING') ?></label>
-		    	<select name="id" id="meetingID">
+		    	<select name="id" id="meetingID" style="width: 100%;">
 				<?php
 					foreach ($result as $data) {
 						echo "<option value=".$data['id'].">".$data['meetingName']."</option>";

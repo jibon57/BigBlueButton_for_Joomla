@@ -58,4 +58,7 @@
             <language tag="de-DE">language/de-DE.com_bigbluebutton.sys.ini</language>                           
 		</languages>		
 	</administration>
+		<tables>
+		<table>#__bbb_meetings</table>
+	</tables>
 </extension>

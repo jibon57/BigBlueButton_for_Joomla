@@ -79,7 +79,7 @@ class BigbluebuttonViewmeetings  extends JViewLegacy {
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'meetings.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('', 'meetings.delete', 'JTOOLBAR_DELETE');
 		}
 				
 		
