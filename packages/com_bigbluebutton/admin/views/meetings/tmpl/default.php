@@ -106,7 +106,7 @@ if ($params->get('salt') == "" || $params->get('url') == "" ) {
 					<input type="checkbox" name="checkall-toggle" value="" title="(<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
+					<?php //echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
 				</th>
 								<th class="title">
 					<?php echo JHTML::_('grid.sort', 'MeetingName', 'a.meetingName', $listDirn, $listOrder ); ?>
@@ -161,7 +161,7 @@ if ($params->get('salt') == "" || $params->get('url') == "" ) {
 				<tr class="row<?php echo $i % 2; ?>"">
 					      
         			<td><?php echo $checked;  ?></td>
-        			<td><?php echo $item->id; ?></td>
+        			<td><?php //echo $item->id; ?></td>
         				
 									        <td class="nowrap has-context">
 									        
