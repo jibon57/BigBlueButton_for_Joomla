@@ -22,9 +22,9 @@ class BigbluebuttonHelper
     
     function __construct () {
   	$params = JComponentHelper::getParams('com_bigbluebutton');
-        $this->salt = $params->get('salt');
-    	$this->url = $params->get('url');
-    	$this->dialNumber = $params->get('dialNumber');
+        $this->salt = trim($params->get('salt'));
+    	$this->url = trim($params->get('url'));
+    	$this->dialNumber = trim($params->get('dialNumber'));
     }
     
     public function meeting($id = 1, $username = null, $password = null) {
