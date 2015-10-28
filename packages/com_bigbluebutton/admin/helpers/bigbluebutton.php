@@ -67,7 +67,7 @@ class BigbluebuttonHelper
 			}	
 			else { 
 				if ($result['returncode'] == 'SUCCESS') {
-					$output = $this->getlink ($id, $username, $password);
+					$output = $this->getlink ($data->meetingId, $username, $password);
 				}
 				else {
 					$output = "Meeting creation failed";
