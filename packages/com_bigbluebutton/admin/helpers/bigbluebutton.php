@@ -33,7 +33,7 @@ class BigbluebuttonHelper
     	$query = $db->getQuery(true);
     	$query = "SELECT * FROM `#__bbb_meetings` WHERE `id`=".$id;
     	$db->setQuery($query);
-	$data = $db->loadObject();
+		$data = $db->loadObject();
 	
 	if ($data->attendeePW == $password || $data->moderatorPW == $password) {
 		
