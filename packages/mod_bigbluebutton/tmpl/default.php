@@ -47,7 +47,7 @@ jQuery("document").ready(function (){
 		    	<select name="id" id="meetingID">
 				<?php
 					foreach ($result as $data) {
-						echo "<option value=".$data['meetingId'].">".$data['meetingName']."</option>";
+						echo "<option value=".$data['id'].">".$data['meetingName']."</option>";
 					}
 				?>
 			</select>

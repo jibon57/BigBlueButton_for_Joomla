@@ -38,7 +38,7 @@ class BigbluebuttonHelper
 	if ($data->attendeePW == $password || $data->moderatorPW == $password) {
 		
 		$creationParams = array(
-			'meetingId' => $id,
+			'meetingId' => $data->meetingId,
 			'meetingName' => $data->meetingName,
 			'attendeePw' => $data->attendeePW,
 			'moderatorPw' => $data->moderatorPW,
