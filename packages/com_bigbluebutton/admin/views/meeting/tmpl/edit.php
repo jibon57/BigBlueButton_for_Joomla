@@ -39,7 +39,17 @@ Joomla.submitbutton = function(task)
 	 	<div class="col <?php if(version_compare(JVERSION,'3.0','lt')):  ?>width-60  <?php endif; ?>span8 form-horizontal fltlft">
 		  <fieldset class="adminform">
 			<legend><?php echo JText::_( 'Details' ); ?></legend>
-		
+				
+				<div class="control-group">
+					<div class="control-label">					
+						<?php echo $this->form->getLabel('meetingId'); ?>
+					</div>
+					
+					<div class="controls">	
+						<?php echo $this->form->getInput('meetingId');  ?>
+					</div>
+				</div>
+				
 				<div class="control-group">
 					<div class="control-label">					
 						<?php echo $this->form->getLabel('meetingName'); ?>

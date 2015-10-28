@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS `#__bbb_meetings` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `meetingId` varchar(10) NOT NULL,
   `meetingName` varchar(50) NOT NULL,
   `meetingVersion` int(5) NOT NULL DEFAULT '0',
   `moderatorPW` varchar(40) NOT NULL,

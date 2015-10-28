@@ -107,6 +107,9 @@ if ($params->get('salt') == "" || $params->get('url') == "" ) {
 				</th>
 				<th class="title">
 					<?php //echo JHTML::_('grid.sort', 'Id', 'a.id', $listDirn, $listOrder ); ?>
+				</th>			
+								<th class="title">
+					<?php echo JHTML::_('grid.sort', 'MeetingId', 'a.meetingId', $listDirn, $listOrder ); ?>
 				</th>
 								<th class="title">
 					<?php echo JHTML::_('grid.sort', 'MeetingName', 'a.meetingName', $listDirn, $listOrder ); ?>
@@ -162,6 +165,7 @@ if ($params->get('salt') == "" || $params->get('url') == "" ) {
 					      
         			<td><?php echo $checked;  ?></td>
         			<td><?php //echo $item->id; ?></td>
+					<td><?php echo $item->meetingId; ?></td>
         				
 									        <td class="nowrap has-context">
 									        

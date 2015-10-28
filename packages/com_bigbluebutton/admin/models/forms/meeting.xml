@@ -10,6 +10,16 @@
 			readonly="true"/>							
 															
 		<field
+			id="meetingId"
+			name="meetingId"
+			type="text"
+			required="true"
+			label="Meeting ID"
+			description="meetingName_Desc"
+			class="inputbox"
+			size="10"/>
+			
+		<field
 			id="meetingName"
 			name="meetingName"
 			type="text"

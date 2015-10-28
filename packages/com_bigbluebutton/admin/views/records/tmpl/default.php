@@ -67,7 +67,7 @@ if($input->get('message')){
 						<option>Select One Meeting</option>
 						<?php 
 						foreach ($this->items as $key => $item) {
-							echo "<option value='".$item['id']."'>".$item['meetingName']."</option>";
+							echo "<option value='".$item['meetingId']."'>".$item['meetingName']."</option>";
 						}
 						?>
 					</select>
