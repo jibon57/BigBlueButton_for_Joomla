@@ -37,8 +37,8 @@ class BigbluebuttonController extends JControllerLegacy
 		
 		$input = JFactory::getApplication()->input;  	
 		$id = $input->get('meetingID');
-		$username = $input->get('username');
-		$password = $input->get('password');
+		$username = $input->get('username', "", 'STRING');
+		$password = $input->get('password', "", 'STRING');
 		
 		$bbb = new BigbluebuttonHelper();
 		$get = $bbb->meeting($id, $username, $password);
