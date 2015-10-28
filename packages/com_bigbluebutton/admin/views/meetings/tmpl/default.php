@@ -195,8 +195,8 @@ if ($params->get('salt') == "" || $params->get('url') == "" ) {
 						<td><?php echo $item->attendeePW; ?></td>
 								 		
 						<td><?php 
-							if ($bbb->isMeetingRunning($item->id) == 'true') {
-								echo "Yes (<a href='".JURI::base()."index.php?option=com_bigbluebutton&task=endMeeting&meetingId=".$item->id."'>End Now</a>)";
+							if ($bbb->isMeetingRunning($item->meetingId) == 'true') {
+								echo "Yes (<a href='".JURI::base()."index.php?option=com_bigbluebutton&task=endMeeting&meetingId=".$item->meetingId."'>End Now</a>)";
 							}
 							else {
 								echo "No";

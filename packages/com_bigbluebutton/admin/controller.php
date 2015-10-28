@@ -55,7 +55,7 @@ class BigbluebuttonController extends JControllerLegacy
 		$meetingId = $input->get('meetingId');
 		$db = JFactory::getDbo();
 	    	$query = $db->getQuery(true);
-	    	$query = "SELECT moderatorPW FROM `#__bbb_meetings` WHERE `id`=".$meetingId;
+	    	$query = "SELECT moderatorPW FROM `#__bbb_meetings` WHERE `meetingId`=".$meetingId;
 	    	$db->setQuery($query);
 		$password = $db->loadResult();
 		
