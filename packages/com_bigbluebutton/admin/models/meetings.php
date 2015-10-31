@@ -99,7 +99,7 @@ class BigbluebuttonModelmeetings extends JModelList
 		}
 				
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'meetingName');
+		$orderCol = $this->state->get('list.ordering', 'meetingId');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 		if(empty($orderCol)) $orderCol = 'meetingId';
 		if(empty($orderDirn)) $orderDirn = 'ASC'; 		

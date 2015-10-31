@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access'); // no direct access
 
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
-$query = "SELECT * FROM `#__bbb_meetings`";
+$query = "SELECT * FROM `#__bbb_meetings` ORDER BY `meetingId` ASC";
 $db->setQuery($query);
 $result = $db->loadAssocList();
 require(JModuleHelper::getLayoutPath('mod_bigbluebutton'));
