@@ -69,7 +69,7 @@ class BigbluebuttonViewrecords  extends JViewLegacy {
 	protected function getlist() {
 		$db = JFactory::getDbo();
 	    	$query = $db->getQuery(true);
-	    	$query = "SELECT * FROM `#__bbb_meetings` WHERE `record` = 'true'";
+	    	$query = "SELECT * FROM `#__bbb_meetings` WHERE `record` = 'true' ORDER BY `meetingId` ASC";
 	    	$db->setQuery($query);
 		$result = $db->loadAssocList();
 		return $result;		
