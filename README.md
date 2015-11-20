@@ -8,7 +8,7 @@ url: http://test-install.blindsidenetworks.com/bigbluebutton/
 salt: 8cd8ef52e8e101574e400365b55e11a6
 </pre>
 Demo info:
-https://extensions.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extension-for-joomla.html
+https://www.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extension-for-joomla.html
  
 
 You can perform following function:
