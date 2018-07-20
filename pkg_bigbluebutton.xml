@@ -3,6 +3,8 @@
 	<name>BigBlueButton</name>
 	<creationDate>2018-07-21</creationDate>
 	<packagename>bigbluebutton</packagename>
+	<author>Jibon L. Costa</author>
+	<authorEmail>jiboncosta57@gmail.com</authorEmail>
 	<version>2.0.0</version>
 	<copyright>Copyright (C) 2018 hoicoimasti. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>	
