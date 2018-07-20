@@ -11,10 +11,11 @@ Demo info:
 https://www.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extension-for-joomla.html
  
 **Features**
-> Unlimited meeting rooms.
-> Unlimited Events.
-> Pull recordings.
-> Joomla standard component with module. So, you can use in menu or any module position. 
+1) Unlimited meeting rooms.
+2) Unlimited Events.
+3) Pull recordings.
+4) Joomla standard component with module. So, you can use in menu or any module position. 
+5) More...
 
  
 
