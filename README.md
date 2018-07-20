@@ -1,4 +1,6 @@
-#BigBlueButton Extension for Joomla (2.5 and 3.X)
+#BigBlueButton Extension for Joomla (3.X)
+
+**Note:** If you have already installed V1.X then please take a backup of meeting rooms before installing this version. New version won't update the old meeting rooms but it will left old table `__bbb_meetings`. So, you can delete that table later.
 
 This extension can connect your user with BigBlueButton server from joomla. You need to setup a BigBlueButton server to use this extension. You can see server configuration documents from here: http://bigbluebutton.org/
 
