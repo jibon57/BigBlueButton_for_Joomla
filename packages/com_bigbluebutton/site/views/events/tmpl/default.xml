@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<metadata>
+	<layout title="COM_BIGBLUEBUTTON_MENU_EVENTS_TITLE" option="COM_BIGBLUEBUTTON_MENU_EVENTS_OPTION">
+		<message>
+			<![CDATA[COM_BIGBLUEBUTTON_MENU_EVENTS_DESC]]>
+		</message>
+	</layout>
+</metadata>

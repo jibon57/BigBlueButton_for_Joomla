@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2" method="upgrade">
+	<name>COM_BIGBLUEBUTTON</name>
+	<creationDate>20th July, 2018</creationDate>
+	<author>Jibon L. Costa</author>
+	<authorEmail>jiboncosta57@gmail.com</authorEmail>
+	<authorUrl>https://www.hoicoimasti.com</authorUrl>
+	<copyright>Copyright (C) 2018 Hoicoi Extension. All Rights Reserved</copyright>
+	<license>MIT</license>
+	<version>2.0.0</version>
+	<description><![CDATA[
+		<h1>BigBlueButton (v.2.0.0)</h1>
+		<div style="clear: both;"></div>
+		<p>Get BigBlueButton Conference access from Joomla</p>
+		<p>Created by <a href="https://www.hoicoimasti.com" target="_blank">Jibon L. Costa</a><br /><small>Development started 17th July, 2018</small></p>
+	]]></description>
+
+	<!-- Runs on install; New in Joomla 1.5 -->
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+
+	<!-- Runs on uninstall; New in Joomla 1.5 -->
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<!-- Runs on install/uninstall/update; New in Joomla 2.5 -->
+	<scriptfile>script.php</scriptfile>
+
+	<media destination="com_bigbluebutton" folder="media">
+		<filename>index.html</filename>
+		<folder>js</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+	</media>
+
+	<!-- Update Schema; New in Joomla 2.5 -->
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql/</schemapath>
+		</schemas>
+	</update>
+
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>bigbluebutton.php</filename>
+		<folder>assets</folder>
+		<folder>helpers</folder>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+		<folder>layouts</folder>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB/en-GB.com_bigbluebutton.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.com_bigbluebutton.sys.ini</language>
+	</languages>
+
+	<administration>
+		<menu>COM_BIGBLUEBUTTON_MENU</menu>
+		<submenu>
+			<!-- Instead of link you can specify individual link attributes -->
+			<menu option="com_bigbluebutton" view="meetings">COM_BIGBLUEBUTTON_MENU_MEETINGS</menu>
+			<menu option="com_bigbluebutton" view="events">COM_BIGBLUEBUTTON_MENU_EVENTS</menu>
+			<menu option="com_bigbluebutton" view="recording">COM_BIGBLUEBUTTON_MENU_RECORDING</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>###WHMCS_ENCRYPT_FILE###
+			<filename>index.html</filename>
+			<filename>bigbluebutton.php</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<folder>layouts</folder>
+			<folder>libs</folder>
+		</files>
+
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_bigbluebutton.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_bigbluebutton.sys.ini</language>
+		</languages>
+
+	</administration>
+	<updateservers>
+		<server type="extension" enabled="1" element="com_bigbluebutton" name="BigBlueButton">https://raw.githubusercontent.com/jibon57/BigBlueButton_for_Joomla/v2/update.xml</server>
+	</updateservers>
+</extension>

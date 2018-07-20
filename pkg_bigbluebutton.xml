@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="package" version="1.6">
 	<name>BigBlueButton</name>
-	<creationDate>2015-03-06</creationDate>
+	<creationDate>2018-07-21</creationDate>
 	<packagename>bigbluebutton</packagename>
-	<version>1.2</version>
-	<copyright>Copyright (C) 2015 Jibon Lawrence Costa Open Source Matters. All rights reserved.</copyright>	
+	<author>Jibon L. Costa</author>
+	<authorEmail>jiboncosta57@gmail.com</authorEmail>
+	<version>2.0.0</version>
+	<copyright>Copyright (C) 2018 hoicoimasti. All rights reserved.</copyright>	
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>	
 	<packager>Jibon Lawrence Costa</packager>
-	<packagerurl>http://extensions.hoicoimasti.com/</packagerurl>
+	<packagerurl>http://www.hoicoimasti.com/</packagerurl>
 	<description><![CDATA[Get BigBlueButton Conference access from Joomla.]]></description>
 	<update></update>
 	<files folder="packages">
 		<file type="component" id="com_bigbluebutton">com_bigbluebutton</file>
 		<file type="module" id="mod_bigbluebutton" client="site">mod_bigbluebutton</file>
-
 	</files>
 </extension>

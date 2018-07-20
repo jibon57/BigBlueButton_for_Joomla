@@ -9,57 +9,73 @@
  */
 
 defined('_JEXEC') or die('Restricted access');	
-if ($params->get("jquery") == "1") {
-	if (version_compare(JVERSION,'3','<')) {
-		JFactory::getDocument()->addScript(JURI::base().'administrator/components/com_bigbluebutton/assets/jquery-1.11.2.min.js');
-	}else {
-		JHtml::_('jquery.framework');
-	}
-}	    
-?>
-<script type="text/javascript">
-jQuery("document").ready(function (){
-	jQuery("#meetingjoin").click(function(){
-		var meetingID = jQuery('#meeting #meetingID').val();
-		var username= jQuery('#meeting #username').val();
-		var password= jQuery('#meeting #password').val();
-		var url = '<?php echo Juri::base(); ?>index.php?option=com_bigbluebutton&task=getMeeting&meetingID='+ meetingID +'&username='+ username +'&password='+ password;
-		jQuery("#status").html("<p style='color: red'>Checking infomation......</p>");
-		jQuery.getJSON(url, function(data){
-			jQuery.each(data, function(i, rep){					
-				if (rep.status == "yes") {
-					jQuery("#status").html("<p style='color: red'>Please wait redirecting......</p>");
-					window.location = rep.url;
-					
-				}
-				else {
-					jQuery("#status").html("<p style='color: red'>"+rep.message+"</p>");
-				}			
-			});
-		});	
-	});
-});
-</script>
-<div id="status"></div>
-<div class="bigbluebutton<?php echo $params->get( 'moduleclass_sfx' ) ?>" id="meeting">
-		  <div class="form-group">
-		    <label for="Meeting"><?php echo JText::_('MEETING') ?></label>
-		    	<select name="id" id="meetingID">
-				<?php
-					foreach ($result as $data) {
-						echo "<option value=".$data['id'].">".$data['meetingName']."</option>";
-					}
-				?>
-			</select>
-		  </div>
-		  <div class="form-group">
-		    <label for="Name"><?php echo JText::_('USERNAME') ?></label>
-		    <input type="text" id="username" name="username" size="10" class="form-control" placeholder="<?php echo JText::_('USERNAME') ?>">
-		  </div>
-		  <div class="form-group">
-		    <label for="Password"><?php echo JText::_('PASSWORD') ?></label>
-			<input type="password" name="password" id="password" size="10" class="form-control" placeholder="<?php echo JText::_('PASSWORD') ?>">
-		  </div>
-		  <button type="submit" class="btn btn-default" id="meetingjoin"><?php echo JText::_('JOIN') ?></button>
 
-</div>	
+JHtml::_('jquery.framework');
+ 
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery("document").ready(function($){
+		$("#bbbLoginModuleFrom").submit(function(e){
+			e.preventDefault();
+			var data = $(this).serialize();
+			$.ajax({
+				method: "GET",
+				dataType: "jsonp",
+				url: "index.php?"+data,
+				jsonp: "callback",
+				
+				beforeSend: function(){
+					$("#statusModule").html("<img style=\"height: 60px; width: 60px;\" src=\''.JURI::root().'components/com_bigbluebutton/assets/images/ajax.gif\' alt=\'loading..\'/>");
+				},
+				success: function(res){
+					$("#statusModule").html("");
+					if(res.status){
+						$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_REDIRECTING").'....");
+						window.location = res.url;
+					}else{
+						$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
+					}
+				},
+				error: function(res){
+					$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
+				}
+			})
+		})
+	})
+');
+?>
+<form id="bbbLoginModuleFrom" class="<?php echo $params->get( 'classname'); ?> uk-form uk-form-horizontal">
+    <fieldset>
+		<div style="color: red; margin-bottom: 10px;" id="statusModule"></div>
+
+        <div class="uk-form-row">
+			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_ROOM'); ?></label>
+			<div class="uk-form-controls">
+				<?php echo JHtmlSelect::genericlist($options, 'meetingId', 'class="meeting"', 'value', 'text'); ?>
+			</div>
+		</div>
+		
+        <div class="uk-form-row">
+			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_NAME'); ?></label>
+			<div class="uk-form-controls">
+				<input name="name" required type="text" placeholder="<?php echo JText::_('COM_BIGBLUEBUTTON_NAME'); ?>">
+			</div>
+		</div>
+		
+		<div class="uk-form-row">
+			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_PASSWORD'); ?></label>
+			<div class="uk-form-controls">
+				<input type="password" required name="password" placeholder="<?php echo JText::_('COM_BIGBLUEBUTTON_PASSWORD'); ?>">
+			</div>
+		</div>
+		<input type="hidden" name="option" value="com_bigbluebutton">
+		<input type="hidden" name="task" value="ajax.login">
+		<input type="hidden" name="format" value="json">
+		<input type="hidden" name="token" value="<?php echo JSession::getFormToken(); ?>">
+		<div class="uk-form-row">
+			<div class="uk-form-controls">
+				<button class="btn btn-success" type="submit"><?php echo JText::_('COM_BIGBLUEBUTTON_LOGIN'); ?></button>
+				<button class="btn btn-danger" type="reset"><?php echo JText::_('COM_BIGBLUEBUTTON_RESET'); ?></button>
+			</div>
+		</div>
+   </fieldset>
+</form>  

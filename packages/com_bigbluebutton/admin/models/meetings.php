@@ -1,89 +1,177 @@
- <?php
+<?php
 /**
-* @version		$Id:default.php 1 2015-03-05 16:31:34Z Jibon $
-* @package		Bigbluebutton
-* @subpackage 	Models
-* @copyright	Copyright (C) 2015, Jibon Lawrence Costa. All rights reserved.
-* @license 		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-*/
+ * @package    BigBlueButton
+ *
+ * @created    17th July, 2018
+ * @author     Jibon L. Costa <jiboncosta57@gmail.com>
+ * @website    https://www.hoicoimasti.com
+ * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @license    MIT
+ */
 
-// no direct access
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+// import the Joomla modellist library
 jimport('joomla.application.component.modellist');
-jimport('joomla.application.component.helper');
 
-JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_bigbluebutton/tables');
-
-class BigbluebuttonModelmeetings extends JModelList
+/**
+ * Meetings Model
+ */
+class BigbluebuttonModelMeetings extends JModelList
 {
 	public function __construct($config = array())
 	{
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                            'meetingName', 'a.meetingName',
-                            'moderatorPW', 'a.moderatorPW',
-                            'attendeePW', 'a.attendeePW',
-                            'waitForModerator', 'a.waitForModerator',
-                            'id', 'a.id',
-                        );
-        
-        }
+		if (empty($config['filter_fields']))
+        {
+			$config['filter_fields'] = array(
+				'a.id','id',
+				'a.published','published',
+				'a.ordering','ordering',
+				'a.created_by','created_by',
+				'a.modified_by','modified_by',
+				'a.title','title'
+			);
+		}
 
-		parent::__construct($config);	
-
+		parent::__construct($config);
 	}
-	
-	protected function populateState($ordering = null, $direction = null)
-	{
-			parent::populateState();
-			$app = JFactory::getApplication();
-           		$config = JFactory::getConfig();
-			$id = $app->input->getInt('id', null);
-			$this->setState('meetinglist.id', $id);			
-			
-			// Load the filter state.
-			$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-			$this->setState('filter.search', $search);
-
-			$app = JFactory::getApplication();
-			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $config->get('list_limit'));
-			$limit = $value;
-			$this->setState('list.limit', $limit);
-			
-			$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
-			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
-			$this->setState('list.start', $limitstart);
-			
-			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
-			$this->setState('list.ordering', $value);			
-						$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
-			$this->setState('list.direction', $value);
-
-					
-	}
-    		
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('meetinglist.id');
-						return parent::getStoreId($id);
-	}	
 	
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to auto-populate the model state.
 	 *
-	 * @return	object	A JDatabaseQuery object to retrieve the data set.
+	 * @return  void
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		$app = JFactory::getApplication();
+
+		// Adjust the context to support modal layouts.
+		if ($layout = $app->input->get('layout'))
+		{
+			$this->context .= '.' . $layout;
+		}
+		$title = $this->getUserStateFromRequest($this->context . '.filter.title', 'filter_title');
+		$this->setState('filter.title', $title);
+        
+		$sorting = $this->getUserStateFromRequest($this->context . '.filter.sorting', 'filter_sorting', 0, 'int');
+		$this->setState('filter.sorting', $sorting);
+        
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+        
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+        
+		$created_by = $this->getUserStateFromRequest($this->context . '.filter.created_by', 'filter_created_by', '');
+		$this->setState('filter.created_by', $created_by);
+
+		$created = $this->getUserStateFromRequest($this->context . '.filter.created', 'filter_created');
+		$this->setState('filter.created', $created);
+
+		// List state information.
+		parent::populateState($ordering, $direction);
+	}
+	
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 */
+	public function getItems()
+	{ 
+		// load parent items
+		$items = parent::getItems(); 
+
+		// set selection value to a translatable value
+		if (BigbluebuttonHelper::checkArray($items))
+		{
+			foreach ($items as $nr => &$item)
+			{
+				// convert record
+				$item->record = $this->selectionTranslation($item->record, 'record');
+			}
+		}
+ 
+		foreach($items as &$item){
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meeting&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+		}
+        
+		// return items
+		return $items;
+	}
+
+	/**
+	 * Method to convert selection values to translatable string.
+	 *
+	 * @return translatable string
+	 */
+	public function selectionTranslation($value,$name)
+	{
+		// Array of record language strings
+		if ($name === 'record')
+		{
+			$recordArray = array(
+				0 => 'COM_BIGBLUEBUTTON_MEETING_NO',
+				1 => 'COM_BIGBLUEBUTTON_MEETING_YES'
+			);
+			// Now check if value is found in this array
+			if (isset($recordArray[$value]) && BigbluebuttonHelper::checkString($recordArray[$value]))
+			{
+				return $recordArray[$value];
+			}
+		}
+		return $value;
+	}
+	
+	/**
+	 * Method to build an SQL query to load the list data.
+	 *
+	 * @return	string	An SQL query
 	 */
 	protected function getListQuery()
 	{
-		
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);		
+		// Get the user object.
+		$user = JFactory::getUser();
+		// Create a new query object.
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+
+		// Select some fields
 		$query->select('a.*');
-		$query->from('#__bbb_meetings as a');
-	
-		 				// Filter by search in title
+
+		// From the bigbluebutton_item table
+		$query->from($db->quoteName('#__bigbluebutton_meeting', 'a'));
+
+		// Filter by published state
+		$published = $this->getState('filter.published');
+		if (is_numeric($published))
+		{
+			$query->where('a.published = ' . (int) $published);
+		}
+		elseif ($published === '')
+		{
+			$query->where('(a.published = 0 OR a.published = 1)');
+		}
+
+		// Join over the asset groups.
+		$query->select('ag.title AS access_level');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		// Filter by access level.
+		if ($access = $this->getState('filter.access'))
+		{
+			$query->where('a.access = ' . (int) $access);
+		}
+		// Implement View Level Access
+		if (!$user->authorise('core.options', 'com_bigbluebutton'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
+		}
+		// Filter by search.
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
@@ -93,18 +181,135 @@ class BigbluebuttonModelmeetings extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(a.meetingName LIKE ' . $search . '  OR a.moderatorPW LIKE ' . $search . '  OR a.attendeePW LIKE ' . $search . '  OR a.waitForModerator LIKE ' . $search . ' )');
+				$search = $db->quote('%' . $db->escape($search) . '%');
+				$query->where('(a.title LIKE '.$search.')');
 			}
 		}
-				
+
+
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'meetingId');
-		$orderDirn = $this->state->get('list.direction', 'ASC');
-		if(empty($orderCol)) $orderCol = 'meetingId';
-		if(empty($orderDirn)) $orderDirn = 'ASC'; 		
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
-							
+		$orderCol = $this->state->get('list.ordering', 'a.id');
+		$orderDirn = $this->state->get('list.direction', 'asc');	
+		if ($orderCol != '')
+		{
+			$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		}
+
 		return $query;
-	}	
+	}
+
+	/**
+	 * Method to get list export data.
+	 *
+	 * @return mixed  An array of data items on success, false on failure.
+	 */
+	public function getExportData($pks)
+	{
+		// setup the query
+		if (BigbluebuttonHelper::checkArray($pks))
+		{
+			// Set a value to know this is exporting method.
+			$_export = true;
+			// Get the user object.
+			$user = JFactory::getUser();
+			// Create a new query object.
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+
+			// Select some fields
+			$query->select('a.*');
+
+			// From the bigbluebutton_meeting table
+			$query->from($db->quoteName('#__bigbluebutton_meeting', 'a'));
+			$query->where('a.id IN (' . implode(',',$pks) . ')');
+			// Implement View Level Access
+			if (!$user->authorise('core.options', 'com_bigbluebutton'))
+			{
+				$groups = implode(',', $user->getAuthorisedViewLevels());
+				$query->where('a.access IN (' . $groups . ')');
+			}
+
+			// Order the results by ordering
+			$query->order('a.ordering  ASC');
+
+			// Load the items
+			$db->setQuery($query);
+			$db->execute();
+			if ($db->getNumRows())
+			{
+				$items = $db->loadObjectList();
+
+				// set values to display correctly.
+				if (BigbluebuttonHelper::checkArray($items))
+				{
+					foreach ($items as $nr => &$item)
+					{
+						// unset the values we don't want exported.
+						unset($item->asset_id);
+						unset($item->checked_out);
+						unset($item->checked_out_time);
+					}
+				}
+				// Add headers to items array.
+				$headers = $this->getExImPortHeaders();
+				if (BigbluebuttonHelper::checkObject($headers))
+				{
+					array_unshift($items,$headers);
+				}
+
+				foreach($items as &$item){
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meeting&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+		}
+				return $items;
+			}
+		}
+		return false;
+	}
+
+	/**
+	* Method to get header.
+	*
+	* @return mixed  An array of data items on success, false on failure.
+	*/
+	public function getExImPortHeaders()
+	{
+		// Get a db connection.
+		$db = JFactory::getDbo();
+		// get the columns
+		$columns = $db->getTableColumns("#__bigbluebutton_meeting");
+		if (BigbluebuttonHelper::checkArray($columns))
+		{
+			// remove the headers you don't import/export.
+			unset($columns['asset_id']);
+			unset($columns['checked_out']);
+			unset($columns['checked_out_time']);
+			$headers = new stdClass();
+			foreach ($columns as $column => $type)
+			{
+				$headers->{$column} = $column;
+			}
+			return $headers;
+		}
+		return false;
+	} 
+	
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * @return  string  A store id.
+	 *
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.id');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.ordering');
+		$id .= ':' . $this->getState('filter.created_by');
+		$id .= ':' . $this->getState('filter.modified_by');
+		$id .= ':' . $this->getState('filter.title');
+
+		return parent::getStoreId($id);
+	}
 }

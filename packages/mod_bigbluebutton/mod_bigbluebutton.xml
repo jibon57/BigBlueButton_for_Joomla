@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6" method="upgrade">
 	<name>Bigbluebutton</name>
-	<creationDate>2015-03-05</creationDate>
+	<creationDate>2018-07-21</creationDate>
 	<author>Jibon Lawrence Costa</author>
 	<authorEmail>jiboncosta57@gmail.com</authorEmail>
-	<authorUrl>extensions.hoicoimasti.com</authorUrl>
-	<copyright>Copyright (C) 2015  Open Source Matters. All rights reserved.</copyright>	
+	<authorUrl>www.hoicoimasti.com</authorUrl>
+	<copyright>Copyright (C) 2018  hoicoimasti.com. All rights reserved.</copyright>	
 	<license></license>
-	<version>1.2</version>
+	<version>2.0.0</version>
 	<description></description>
 	<files>
 		<filename module="mod_bigbluebutton">mod_bigbluebutton.php</filename>
@@ -25,11 +25,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="classname" type="text" default="" label="Class Name" description="Class Name Description" />
-				<field name="jquery" type="list" default="0" label="Use jQuery" description="This module will need jQuery Library. Most of the templates are using jQuery. If your template not using or this module not working then you can choose Yes.">
-				  <option value="1">Yes</option>
-				  <option value="0">No</option>
-				</field>
-				
 			</fieldset>
 		</fields>
 	</config>			

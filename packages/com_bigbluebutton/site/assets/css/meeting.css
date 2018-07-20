@@ -1,0 +1,41 @@
+/**
+ * @package    BigBlueButton
+ *
+ * @created    17th July, 2018
+ * @author     Jibon L. Costa <jiboncosta57@gmail.com>
+ * @website    https://www.hoicoimasti.com
+ * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @license    MIT
+ */
+
+/* CSS Document */
+
+.bbb-heading{
+	background: #f2f2f2;
+	border: 1px solid #DBDEE1;
+	border-radius: 7px 7px 0 0;
+	color: #333333;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 14px;
+	padding: 8px 10px 7px;
+	margin: 0;
+}
+.bbb-page-heading{
+	width: auto !important;
+	margin: 5px 0 5px 0 !important;
+	padding: 0 !important;
+}
+.bbb-details{
+	border-bottom: 1px solid #DBDEE1;
+	border-left: 1px solid #DBDEE1;
+	border-right: 1px solid #DBDEE1;
+	background: #fff;
+    border-radius: 0 0 7px 7px;
+    margin: 0;
+    padding: 10px;
+}
+.loginFrom{
+	margin-top: 20px;
+}
+

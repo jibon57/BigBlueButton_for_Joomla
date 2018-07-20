@@ -1,63 +1,123 @@
 <?php
 /**
-* @version		$Id:controller.php  1 2015-03-06 18:57:25Z Jibon $
-* @package		Bigbluebutton
-* @subpackage 	Controllers
-* @copyright	Copyright (C) 2015, Jibon Lawrence Costa. All rights reserved.
-* @license 		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
-*/
+ * @package    BigBlueButton
+ *
+ * @created    17th July, 2018
+ * @author     Jibon L. Costa <jiboncosta57@gmail.com>
+ * @website    https://www.hoicoimasti.com
+ * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @license    MIT
+ */
 
-// no direct access
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
+// import Joomla controller library
 jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT_ADMINISTRATOR."/helpers/bigbluebutton.php";
+
 /**
- * Bigbluebutton Controller
- *
- * @package    
- * @subpackage Controllers
+ * Bigbluebutton Component Controller
  */
 class BigbluebuttonController extends JControllerLegacy
 {
-
-    /**
-    * Constructor.
-    *
-    * @param	array An optional associative array of configuration settings.
-    * @see		JController
-    */
-    	public function display($cachable = false, $urlparams = false)
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JController  This object to support chaining.
+	 *
+	 */
+	function display($cachable = false, $urlparams = false)
 	{
-			 
-		return parent::display();
-	}
-	
-	public function getMeeting($id = 1, $username = null, $password = null){
+		// set default view if not set
+		$view		= $this->input->getCmd('view', 'login');
+		$this->input->set('view', $view);
+		$isEdit		= $this->checkEditView($view);
+		$layout		= $this->input->get('layout', null, 'WORD');
+		$id			= $this->input->getInt('id');
+		// $cachable	= true; (TODO) working on a fix [gh-238](https://github.com/vdm-io/Joomla-Component-Builder/issues/238)
 		
-		$input = JFactory::getApplication()->input;  	
-		$id = $input->get('meetingID');
-		$username = $input->get('username', "", 'STRING');
-		$password = $input->get('password', "", 'STRING');
+		// insure that the view is not cashable if edit view or if user is logged in
+		$user = JFactory::getUser();
+		if ($user->get('id') || $isEdit)
+		{
+			$cachable = false;
+		}
 		
-		$bbb = new BigbluebuttonHelper();
-		$get = $bbb->meeting($id, $username, $password);
-		$final = array();
-		if (preg_match("/meetingID/",$get)) {
-			$data['status'] = "yes";
-			$data['url']= $get;
-			array_push($final, $data);
+		// Check for edit form.
+		if($isEdit)
+		{
+			if ($layout == 'edit' && !$this->checkEditId('com_bigbluebutton.edit.'.$view, $id))
+			{
+				// Somehow the person just went to the form - we don't allow that.
+				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+				$this->setMessage($this->getError(), 'error');
+				// check if item was opend from other then its own list view
+				$ref 	= $this->input->getCmd('ref', 0);
+				$refid 	= $this->input->getInt('refid', 0);
+				// set redirect
+				if ($refid > 0 && BigbluebuttonHelper::checkString($ref))
+				{
+					// redirect to item of ref
+					$this->setRedirect(JRoute::_('index.php?option=com_bigbluebutton&view='.(string)$ref.'&layout=edit&id='.(int)$refid, false));
+				}
+				elseif (BigbluebuttonHelper::checkString($ref))
+				{
+					// redirect to ref
+					 $this->setRedirect(JRoute::_('index.php?option=com_bigbluebutton&view='.(string)$ref, false));
+				}
+				else
+				{
+					// normal redirect back to the list default site view
+					$this->setRedirect(JRoute::_('index.php?option=com_bigbluebutton&view=login', false));
+				}
+				return false;
+			}
 		}
-		else {
-			$data['status'] = "no";
-			$data['message']= $get;
-			array_push($final, $data);
-		}
-		header('Content-Type: application/json');
-		echo json_encode($final);
-		jexit();
-	}	
-	
+		
+		// we may need to make this more dynamic in the future. (TODO)
+		$safeurlparams = array(
+			'catid' => 'INT',
+			'id' => 'INT',
+			'cid' => 'ARRAY',
+			'year' => 'INT',
+			'month' => 'INT',
+			'limit' => 'UINT',
+			'limitstart' => 'UINT',
+			'showall' => 'INT',
+			'return' => 'BASE64',
+			'filter' => 'STRING',
+			'filter_order' => 'CMD',
+			'filter_order_Dir' => 'CMD',
+			'filter-search' => 'STRING',
+			'print' => 'BOOLEAN',
+			'lang' => 'CMD',
+			'Itemid' => 'INT');
 
-}// class
-?>
+		// should these not merge?
+		if (BigbluebuttonHelper::checkArray($urlparams))
+		{
+			$safeurlparams = BigbluebuttonHelper::mergeArrays(array($urlparams, $safeurlparams));
+		}
+
+		return parent::display($cachable, $safeurlparams);
+	}
+
+	protected function checkEditView($view)
+	{
+		if (BigbluebuttonHelper::checkString($view))
+		{
+			$views = array(
+
+				);
+			// check if this is a edit view
+			if (in_array($view,$views))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
