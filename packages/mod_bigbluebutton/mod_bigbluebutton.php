@@ -9,10 +9,28 @@
  */
 defined('_JEXEC') or die('Restricted access'); // no direct access
 
+$lang = JFactory::getLanguage();
+$extension = 'com_bigbluebutton';
+$base_dir = JPATH_SITE;
+$language_tag = $lang->getTag();
+$reload = true;
+$lang->load($extension, $base_dir, $language_tag, $reload);
+
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
-$query = "SELECT * FROM `#__bbb_meetings` ORDER BY `meetingId` ASC";
+$query = "SELECT id,title FROM `#__bigbluebutton_meeting` ORDER BY `meetingId` ASC";
 $db->setQuery($query);
-$result = $db->loadAssocList();
+
+$items = $db->loadObjectList();
+
+$options = array();
+$options[] = JHtml::_('select.option', '', JText::_('COM_BIGBLUEBUTTON_SELECT_MEETING_ROOM'));
+
+foreach($items as $item){
+	$options[] = JHtml::_('select.option', $item->id, $item->title);
+}
+
+$meetingSelectOption = JHtmlSelect::genericlist($options, 'meetingId', 'class="meeting"', 'value', 'text');
+
 require(JModuleHelper::getLayoutPath('mod_bigbluebutton'));
 ?>
