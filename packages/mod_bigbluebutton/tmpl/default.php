@@ -14,7 +14,7 @@ JHtml::_('jquery.framework');
  
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery("document").ready(function($){
-		$("#bbbLoginFrom").submit(function(e){
+		$("#bbbLoginModuleFrom").submit(function(e){
 			e.preventDefault();
 			var data = $(this).serialize();
 			$.ajax({
@@ -24,28 +24,28 @@ JFactory::getDocument()->addScriptDeclaration('
 				jsonp: "callback",
 				
 				beforeSend: function(){
-					$("#status").html("<img style=\"height: 60px; width: 60px;\" src=\''.JURI::root().'components/com_bigbluebutton/assets/images/ajax.gif\' alt=\'loading..\'/>");
+					$("#statusModule").html("<img style=\"height: 60px; width: 60px;\" src=\''.JURI::root().'components/com_bigbluebutton/assets/images/ajax.gif\' alt=\'loading..\'/>");
 				},
 				success: function(res){
-					$("#status").html("");
+					$("#statusModule").html("");
 					if(res.status){
-						$("#status").html("'.JText::_("COM_BIGBLUEBUTTON_REDIRECTING").'....");
+						$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_REDIRECTING").'....");
 						window.location = res.url;
 					}else{
-						$("#status").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
+						$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
 					}
 				},
 				error: function(res){
-					$("#status").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
+					$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
 				}
 			})
 		})
 	})
 ');
 ?>
-<form id="bbbLoginFrom" class="<?php echo $params->get( 'classname'); ?> uk-form uk-form-horizontal">
+<form id="bbbLoginModuleFrom" class="<?php echo $params->get( 'classname'); ?> uk-form uk-form-horizontal">
     <fieldset>
-		<div style="color: red; margin-bottom: 10px;" id="status"></div>
+		<div style="color: red; margin-bottom: 10px;" id="statusModule"></div>
 
         <div class="uk-form-row">
 			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_ROOM'); ?></label>
