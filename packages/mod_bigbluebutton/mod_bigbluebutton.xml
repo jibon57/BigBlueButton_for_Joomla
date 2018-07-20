@@ -7,7 +7,7 @@
 	<authorUrl>www.hoicoimasti.com</authorUrl>
 	<copyright>Copyright (C) 2018  hoicoimasti.com. All rights reserved.</copyright>	
 	<license></license>
-	<version>2.0</version>
+	<version>2.0.0</version>
 	<description></description>
 	<files>
 		<filename module="mod_bigbluebutton">mod_bigbluebutton.php</filename>
