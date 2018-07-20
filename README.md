@@ -21,7 +21,7 @@ https://www.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extensio
 
 How to use this extension?
 
-1. Download the zip archive. It's a Joomla package. It's content one component & one module. Both will be install automatically when you will install this package. Note: This extension will work on both Joomla 2.5 & 3.X.
+1. Download the zip archive. It's a Joomla package. It's content one component & one module. Both will be install automatically when you will install this package. Note: This extension will work with Joomla 3.X only.
 
 2. Now go to Components Manager & select "BigBlueButton".
 
