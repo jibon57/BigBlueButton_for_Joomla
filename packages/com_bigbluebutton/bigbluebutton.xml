@@ -96,6 +96,6 @@
 
 	</administration>
 	<updateservers>
-		<server type="extension" enabled="1" element="com_bigbluebutton" name="BigBlueButton">https://raw.githubusercontent.com/jibon57/BigBlueButton_for_Joomla/v2/update.xml</server>
+		<server type="extension" enabled="1" element="com_bigbluebutton" name="BigBlueButton">https://raw.githubusercontent.com/jibon57/BigBlueButton_for_Joomla/master/update.xml</server>
 	</updateservers>
 </extension>
