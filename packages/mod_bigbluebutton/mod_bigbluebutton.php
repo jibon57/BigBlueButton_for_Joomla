@@ -1,12 +1,14 @@
 <?php
 /**
- * @version 1.2
- * @package    joomla
- * @subpackage Bigbluebutton
- * @author	   	Jibon Lawrence Costa
- *  @copyright  	Copyright (C) 2015, Jibon Lawrence Costa. All rights reserved.
- *  @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @package    BigBlueButton
+ *
+ * @created    17th July, 2018
+ * @author     Jibon L. Costa <jiboncosta57@gmail.com>
+ * @website    https://www.hoicoimasti.com
+ * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @license    MIT
  */
+ 
 defined('_JEXEC') or die('Restricted access'); // no direct access
 
 $lang = JFactory::getLanguage();
