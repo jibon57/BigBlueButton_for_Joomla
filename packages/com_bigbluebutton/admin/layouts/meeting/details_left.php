@@ -29,6 +29,7 @@ $fields = $displayData->get('fields') ?: array(
 	'branding',
 	'copyright',
 	'logo',
+	'assign_to',
 	'join_url'
 );
 

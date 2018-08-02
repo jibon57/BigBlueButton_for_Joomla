@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `#__bigbluebutton_meeting` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`alias` CHAR(64) NOT NULL DEFAULT '',
+	`assign_to` INT(7) NOT NULL DEFAULT 0,
 	`attendeepw` VARCHAR(10) NOT NULL DEFAULT '',
 	`branding` INT(1) NOT NULL DEFAULT 0,
 	`copyright` VARCHAR(50) NULL DEFAULT '',
