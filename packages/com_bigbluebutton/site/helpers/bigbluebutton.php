@@ -962,7 +962,7 @@ abstract class BigbluebuttonHelper
 	*
 	*	@returns string on success
 	**/
-	public static function safeString($string, $type = 'L', $spacer = '_', $replaceNumbers = true)
+	public static function safeString($string, $type = 'L', $spacer = '_', $replaceNumbers = true, $keepOnlyCharacters = true)
 	{
 		if ($replaceNumbers === true)
 		{
@@ -991,7 +991,16 @@ abstract class BigbluebuttonHelper
 			$string = trim($string);
 			$string = preg_replace('/'.$spacer.'+/', ' ', $string);
 			$string = preg_replace('/\s+/', ' ', $string);
-			$string = preg_replace("/[^A-Za-z ]/", '', $string);
+			// remove all and keep only characters
+			if ($keepOnlyCharacters)
+			{
+				$string = preg_replace("/[^A-Za-z ]/", '', $string);
+			}
+			// keep both numbers and characters
+			else
+			{
+				$string = preg_replace("/[^A-Za-z0-9 ]/", '', $string);
+			}
 			// select final adaptations
 			if ($type === 'L' || $type === 'strtolower')
 			{

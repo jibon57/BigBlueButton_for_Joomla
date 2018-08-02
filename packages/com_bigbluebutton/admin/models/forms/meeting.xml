@@ -186,6 +186,13 @@
 			message="COM_BIGBLUEBUTTON_MEETING_JOIN_URL_MESSAGE"
 			hint="COM_BIGBLUEBUTTON_MEETING_JOIN_URL_HINT"
 		/>
+		<!-- Assign_to Field. Type: User. (joomla) -->
+		<field
+			type="user"
+			name="assign_to"
+			label="COM_BIGBLUEBUTTON_MEETING_ASSIGN_TO_LABEL"
+			description="COM_BIGBLUEBUTTON_MEETING_ASSIGN_TO_DESCRIPTION"
+		/>
 		<!-- Logo Field. Type: Media. (joomla) -->
 		<field
 			type="media"

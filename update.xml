@@ -4,8 +4,8 @@
 		<description>BigBlueButton Conference access from Joomla</description>
 		<element>pkg_bigbluebutton</element>
 		<type>package</type>
-		<version>2.0.0</version>
-		<infourl title="Joomla!">https://github.com/jibon57/BigBlueButton_for_Joomla</infourl>
+		<version>2.0.1</version>
+		<infourl title="BigBlueButton!">https://github.com/jibon57/BigBlueButton_for_Joomla</infourl>
 		<downloads>
 			<downloadurl type="full" format="zip">https://github.com/jibon57/BigBlueButton_for_Joomla/archive/master.zip</downloadurl>
 		</downloads>
@@ -14,8 +14,7 @@
 		</tags>
 		<maintainer>Jibon L. Costa</maintainer>
 		<maintainerurl>https://www.hoicoimasti.com/</maintainerurl>
-		<section>STS</section>
-		<targetplatform name="joomla" version="3.[0123456789]" />
+		<targetplatform name="joomla" version="3.*" />
 		<php_minimum>5.3.10</php_minimum>
 	</update>
 </updates>
