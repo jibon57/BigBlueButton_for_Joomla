@@ -15,6 +15,7 @@
 		<action name="core.edit.own" title="JACTION_EDITOWN" description="JACTION_EDITOWN_COMPONENT_DESC" />
 		<action name="core.edit.created_by" title="COM_BIGBLUEBUTTON_EDIT_CREATED_BY" description="COM_BIGBLUEBUTTON_EDIT_CREATED_BY_DESC" />
 		<action name="core.edit.created" title="COM_BIGBLUEBUTTON_EDIT_CREATED_DATE" description="COM_BIGBLUEBUTTON_EDIT_CREATED_DATE_DESC" />
+		<action name="event.resent_email" title="COM_BIGBLUEBUTTON_EVENT_RESENT_EMAIL_BUTTON_ACCESS" description="COM_BIGBLUEBUTTON_EVENT_RESENT_EMAIL_BUTTON_ACCESS_DESC" />
 		<action name="event.access" title="COM_BIGBLUEBUTTON_EVENTS_ACCESS" description="COM_BIGBLUEBUTTON_EVENTS_ACCESS_DESC" />
 		<action name="event.batch" title="COM_BIGBLUEBUTTON_EVENTS_BATCH_USE" description="COM_BIGBLUEBUTTON_EVENTS_BATCH_USE_DESC" />
 		<action name="event.dashboard_add" title="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_ADD" description="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_ADD_DESC" />

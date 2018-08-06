@@ -94,4 +94,8 @@ class BigbluebuttonControllerEvents extends JControllerAdmin
 		$this->setRedirect(JRoute::_('index.php?option=com_bigbluebutton&view=events', false), $message, 'error');
 		return;
 	}  
+
+function reSendEmail(){
+ //
+}
 }

@@ -132,6 +132,11 @@ class BigbluebuttonViewEvent extends JViewLegacy
 				{
 					JToolBarHelper::custom('event.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 				}
+				if ($this->canDo->get('event.resent_email'))
+				{
+					// add Resent Email button.
+					JToolBarHelper::custom('event.reSendEmail', 'reply', '', 'COM_BIGBLUEBUTTON_RESENT_EMAIL', false);
+				}
 				JToolBarHelper::cancel('event.cancel', 'JTOOLBAR_CLOSE');
 			}
 		}

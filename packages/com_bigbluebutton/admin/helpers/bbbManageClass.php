@@ -284,6 +284,151 @@ class BBBManageClass{
 		return $output;
 		
 	}
+	
+	public function formatTimeZoneWithGMT($event){
+		$timeZone = "";
+		$config = JFactory::getConfig();
+		
+		if($event->timezone == 1){
+			$timeZone = $config->get('offset');
+		} else{
+			$timeZone = $event->event_timezone;
+		}
+		$dtz = new DateTimeZone($timeZone);
+		$time_in_sofia = new DateTime('now', $dtz);
+		$offset = $dtz->getOffset($time_in_sofia) / 3600;
+
+		$GMT = $timeZone." (GMT" . ($offset < 0 ? $offset : "+" . $offset).")";
+		return $GMT;
+	}
+	
+	public function sendInvitationEmails($event, $redirect = true){
+		
+		$config = JFactory::getConfig();
+		$host =  JUri::getInstance()->getHost();
+		$mailer = JFactory::getMailer();
+		$app = JFactory::getApplication();
+		
+		if($event->timezone == 1){
+			$timeZone = $config->get('offset');
+		} else{
+			$timeZone = $event->event_timezone;
+		}
+		
+		$db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query = "SELECT * FROM `#__bigbluebutton_meeting` WHERE `id`=" . $db->quote($event->meeting_id);
+        $db->setQuery($query);
+        $meeting = $db->loadObject();
+		
+		$mettingRoomName = $meeting->title;
+		$mettingRoomAttendeepw = $meeting->attendeepw;
+		$timeZoneWithGMT = $this->formatTimeZoneWithGMT($event);
+		$attendeeEmailAddresses = explode(",", rtrim($event->emails, ","));
+		$invitationSender = JFactory::getUser()->name;
+		$eventDes = $event->event_des;
+		
+		if($event->event_password == 0){
+			$mettingRoomAttendeepw = $event->custom_event_pass;
+		}
+		if($meeting->assign_to){
+			$invitationSender = JFactory::getUser($meeting->assign_to)->name;
+		}
+		if($event->event_des){
+			$eventDes = strip_tags($event->event_des);
+		}
+		
+		$subject = JText::sprintf('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_SUBJECT', $invitationSender, $event->event_start, $event->event_end);
+		$body = JText::sprintf('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_BODY', $invitationSender, $invitationSender, $mettingRoomName, $event->event_title, 
+		$event->event_des, $event->event_start, $event->event_end, $timeZoneWithGMT, $mettingRoomAttendeepw, $event->join_url, $event->join_url, $config->get('sitename'));
+		
+		$icsFile = $this->createICSfile($host, $event->id, $timeZone, $event->event_start, $event->event_end, $event->event_title, 
+		$eventDes, $mettingRoomName, $event->join_url);
+
+		$sender = array(
+            $config->get('mailfrom'),
+            $config->get('fromname')
+        );
+		
+		$mailer->setSender($sender);
+        $mailer->addRecipient($attendeeEmailAddresses);
+		
+		$mailer->setSubject($subject);
+        $mailer->setBody($body);
+        $mailer->isHTML(true);
+        $mailer->addAttachment($icsFile);
+		$send = $mailer->Send();
+				
+		if ($send == "true") {
+            unlink($icsFile);
+			if($redirect){
+				$app->redirect( Juri::current().'?option=com_bigbluebutton&view=event&layout=edit&id='.$event->id, JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_SUCCESS'), 'success');
+			}
+        } else {
+            unlink($icsFile);
+			if($redirect){
+				$app->redirect( Juri::current().'?option=com_bigbluebutton&view=event&layout=edit&id='.$event->id, JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_FAILURE')." ".$send, 'error');
+			}
+        }
+	}
+	
+	protected function createICSfile($host, $eventID, $userTimeZone, $start, $end, $title, $description, $roomName, $url) {
+
+        date_default_timezone_set('UTC');
+        $current = date("Ymd\THis\Z", time());   // TZOFFSETTO of "right now"
+
+        date_default_timezone_set($userTimeZone);
+
+        $ics = "BEGIN:VCALENDAR\n";
+        $ics .= "PRODID:-//{$host}//Event Management\n";
+        $ics .= "VERSION:2.0\n";
+        $ics .= "METHOD:PUBLISH\n";
+        $ics .= "X-MS-OLK-FORCEINSPECTOROPEN:TRUE\n";
+        $ics .= "BEGIN:VTIMEZONE\n";
+        $ics .= "TZID:{$userTimeZone}\n";
+        $ics .= "TZURL:http://tzurl.org/zoneinfo-outlook/{$userTimeZone}\n";
+        $ics .= "X-LIC-LOCATION:{$userTimeZone}\n";
+        $ics .= "BEGIN:STANDARD\n";
+        $ics .= "TZOFFSETFROM:" . date('O', time()) . "\n";
+        $ics .= "END:STANDARD\n";
+        $ics .= "END:VTIMEZONE\n";
+        $ics .= "BEGIN:VEVENT\n";
+        $ics .= "CLASS:PUBLIC\n";
+        $ics .= "DTSTAMP:" . $current . "\n";
+        $ics .= "DTSTART;TZID={$userTimeZone}:" . date("Ymd\THis", strtotime($start)) . "\n";
+        $ics .= "DTEND;TZID={$userTimeZone}:" . date("Ymd\THis", strtotime($end)) . "\n";
+        $ics .= "LOCATION:{$roomName}\n";
+        $ics .= "PRIORITY:5\n";
+        $ics .= "SEQUENCE:0\n";
+        $ics .= "SUMMARY;LANGUAGE=en-us:{$title}\n";
+        $ics .= "DESCRIPTION:{$description}\n";
+        $ics .= "TRANSP:OPAQUE\n";
+        $ics .= "UID:" . uniqid('Myna_') . "\n";
+        $ics .= "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\n";
+        $ics .= "X-MICROSOFT-CDO-IMPORTANCE:1\n";
+        $ics .= "X-MICROSOFT-DISALLOW-COUNTER:FALSE\n";
+        $ics .= "X-MS-OLK-ALLOWEXTERNCHECK:TRUE\n";
+        $ics .= "X-MS-OLK-AUTOFILLLOCATION:FALSE\n";
+        $ics .= "X-MS-OLK-CONFTYPE:0\n";
+        //Here is to set the reminder for the event.
+        $ics .= "BEGIN:VALARM\n";
+        $ics .= "DESCRIPTION:{$title}\n";
+        $ics .= "TRIGGER:-PT10M\n";
+        $ics .= "ACTION:DISPLAY\n";
+        $ics .= "DESCRIPTION:Reminder\n";
+        $ics .= "END:VALARM\n";
+        $ics .= "END:VEVENT\n";
+        $ics .= "END:VCALENDAR\n";
+
+        $file = JPATH_ROOT . "/tmp/" . $eventID . "_calender.ics";
+
+        file_put_contents($file, $ics);
+
+        if (file_exists($file)) {
+            return $file;
+        }
+        return false;
+    }
 }
 
 ?>

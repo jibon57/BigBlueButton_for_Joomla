@@ -241,6 +241,36 @@
 			<option value="0">
 				COM_BIGBLUEBUTTON_EVENT_CUSTOM</option>
 		</field>
+		<!-- Send_invitation_email Field. Type: List. (joomla) -->
+		<field
+			type="list"
+			name="send_invitation_email"
+			label="COM_BIGBLUEBUTTON_EVENT_SEND_INVITATION_EMAIL_LABEL"
+			description="COM_BIGBLUEBUTTON_EVENT_SEND_INVITATION_EMAIL_DESCRIPTION"
+			class="list_class"
+			multiple="false"
+			default="0">
+			<!-- Option Set. -->
+			<option value="0">
+				COM_BIGBLUEBUTTON_EVENT_NO</option>
+			<option value="1">
+				COM_BIGBLUEBUTTON_EVENT_YES</option>
+		</field>
+		<!-- Emails Field. Type: Textarea. (joomla) -->
+		<field
+			type="textarea"
+			name="emails"
+			label="COM_BIGBLUEBUTTON_EVENT_EMAILS_LABEL"
+			rows="10"
+			cols="5"
+			description="COM_BIGBLUEBUTTON_EVENT_EMAILS_DESCRIPTION"
+			class="text_area"
+			filter="raw"
+			hint="COM_BIGBLUEBUTTON_EVENT_EMAILS_HINT"
+			required="false"
+			readonly="false"
+			disabled="false"
+		/>
 		<!-- Event_des Field. Type: Editor. (joomla) -->
 		<field
 			type="editor"
