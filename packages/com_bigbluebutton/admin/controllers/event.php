@@ -317,13 +317,13 @@ class BigbluebuttonControllerEvent extends JControllerForm
 		if(!$validData['id'] && $validData['send_invitation_email'] == 1){
 			
 			$item = $model->getItem();
-			$eventID = $item->get('id');
+			//$eventID = $item->get('id');
 			
 			if(!class_exists('BBBManageClass')){
 				require_once JPATH_COMPONENT_ADMINISTRATOR."/helpers/bbbManageClass.php";
 			}
 			$class = new BBBManageClass();
-			$class->sendInvitationEmails($item, $redirect);
+			$class->sendInvitationEmails($item, false);
 			
 		}
 
