@@ -116,6 +116,21 @@ jQuery('#adminForm').on('change', '#jform_timezone',function (e)
 
 });
 
+// #jform_emails listeners for emails_vvvvvvy function
+jQuery('#jform_emails').on('keyup',function()
+{
+	var emails_vvvvvvy = jQuery("#jform_emails").val();
+	vvvvvvy(emails_vvvvvvy);
+
+});
+jQuery('#adminForm').on('change', '#jform_emails',function (e)
+{
+	e.preventDefault();
+	var emails_vvvvvvy = jQuery("#jform_emails").val();
+	vvvvvvy(emails_vvvvvvy);
+
+});
+
 
 
 jQuery('#jform_event_start').datetimepicker({

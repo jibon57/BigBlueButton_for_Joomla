@@ -20,6 +20,8 @@ $fields = $displayData->get('fields') ?: array(
 	'event_title',
 	'alias',
 	'event_des',
+	'emails',
+	'send_invitation_email',
 	'event_start',
 	'event_end',
 	'timezone',

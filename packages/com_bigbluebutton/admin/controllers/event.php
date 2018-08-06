@@ -35,6 +35,20 @@ class BigbluebuttonControllerEvent extends JControllerForm
 		parent::__construct($config);
 	}
 
+	
+	/**
+	 * This method will send email again
+	 *
+	 */
+
+	function reSendEmail(){
+		$id   = $this->input->get('id');
+		$model = $this->getModel('Event', '', array());
+		$model->reSendEmail($id);
+		
+	}
+
+
         /**
 	 * Method override to check if you can add a new record.
 	 *
@@ -299,6 +313,20 @@ class BigbluebuttonControllerEvent extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+		
+		if(!$validData['id'] && $validData['send_invitation_email'] == 1){
+			
+			$item = $model->getItem();
+			$eventID = $item->get('id');
+			
+			if(!class_exists('BBBManageClass')){
+				require_once JPATH_COMPONENT_ADMINISTRATOR."/helpers/bbbManageClass.php";
+			}
+			$class = new BBBManageClass();
+			$class->sendInvitationEmails($item, $redirect);
+			
+		}
+
 		return;
 	}
 

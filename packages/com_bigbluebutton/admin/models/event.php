@@ -51,6 +51,27 @@ class BigbluebuttonModelEvent extends JModelAdmin
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
+
+	
+	/**
+	 * Method to send emails.
+	 *
+	 * @param   integer .
+	 *
+	 */
+	function reSendEmail($id){
+		if(!class_exists('BBBManageClass')){
+			require_once JPATH_COMPONENT_ADMINISTRATOR."/helpers/bbbManageClass.php";
+		}
+		$class = new BBBManageClass();
+		$item = $this->getItem($id);
+		$class->sendInvitationEmails($item);
+		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_SUBJECT');
+		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_BODY');
+		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_SUCCESS');
+		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_FAILURE');
+	}
+
     
 	/**
 	 * Method to get a single record.

@@ -39,6 +39,10 @@ class BigbluebuttonModelEvents extends JModelList
 
 		parent::__construct($config);
 	}
+
+function reSendEmail(){
+ //
+}
 	
 	/**
 	 * Method to auto-populate the model state.
