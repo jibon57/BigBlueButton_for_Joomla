@@ -40,9 +40,9 @@ class BigbluebuttonModelEvents extends JModelList
 		parent::__construct($config);
 	}
 
-function reSendEmail(){
- //
-}
+	function reSendEmail(){
+
+	}
 	
 	/**
 	 * Method to auto-populate the model state.
@@ -100,9 +100,24 @@ function reSendEmail(){
 	public function getItems()
 	{ 
 		// load parent items
-		$items = parent::getItems();  
+		$items = parent::getItems();
+
+		// set values to display correctly.
+		if (BigbluebuttonHelper::checkArray($items))
+		{
+			foreach ($items as $nr => &$item)
+			{
+				$access = (JFactory::getUser()->authorise('event.access', 'com_bigbluebutton.event.' . (int) $item->id) && JFactory::getUser()->authorise('event.access', 'com_bigbluebutton'));
+				if (!$access)
+				{
+					unset($items[$nr]);
+					continue;
+				}
+
+			}
+		}  
 		foreach($items as &$item){
-			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=event&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=eventview&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
 		}
         
 		// return items
@@ -230,6 +245,13 @@ function reSendEmail(){
 				{
 					foreach ($items as $nr => &$item)
 					{
+						$access = (JFactory::getUser()->authorise('event.access', 'com_bigbluebutton.event.' . (int) $item->id) && JFactory::getUser()->authorise('event.access', 'com_bigbluebutton'));
+						if (!$access)
+						{
+							unset($items[$nr]);
+							continue;
+						}
+
 						// unset the values we don't want exported.
 						unset($item->asset_id);
 						unset($item->checked_out);
@@ -244,7 +266,7 @@ function reSendEmail(){
 				}
 
 				foreach($items as &$item){
-			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=event&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=eventview&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
 		}
 				return $items;
 			}

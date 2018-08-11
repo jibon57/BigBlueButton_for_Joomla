@@ -80,12 +80,12 @@ class BigbluebuttonViewEvent extends JViewLegacy
 		// Built the actions for new and existing records.
 		if ($this->refid || $this->ref)
 		{
-			if ($this->canDo->get('core.create') && $isNew)
+			if ($this->canDo->get('event.create') && $isNew)
 			{
 				// We can create the record.
 				JToolBarHelper::save('event.save', 'JTOOLBAR_SAVE');
 			}
-			elseif ($this->canDo->get('core.edit'))
+			elseif ($this->canDo->get('event.edit'))
 			{
 				// We can save the record.
 				JToolBarHelper::save('event.save', 'JTOOLBAR_SAVE');
@@ -106,7 +106,7 @@ class BigbluebuttonViewEvent extends JViewLegacy
 			if ($isNew)
 			{
 				// For new records, check the create permission.
-				if ($this->canDo->get('core.create'))
+				if ($this->canDo->get('event.create'))
 				{
 					JToolBarHelper::apply('event.apply', 'JTOOLBAR_APPLY');
 					JToolBarHelper::save('event.save', 'JTOOLBAR_SAVE');
@@ -116,19 +116,19 @@ class BigbluebuttonViewEvent extends JViewLegacy
 			}
 			else
 			{
-				if ($this->canDo->get('core.edit'))
+				if ($this->canDo->get('event.edit'))
 				{
 					// We can save the new record
 					JToolBarHelper::apply('event.apply', 'JTOOLBAR_APPLY');
 					JToolBarHelper::save('event.save', 'JTOOLBAR_SAVE');
 					// We can save this record, but check the create permission to see
 					// if we can return to make a new one.
-					if ($this->canDo->get('core.create'))
+					if ($this->canDo->get('event.create'))
 					{
 						JToolBarHelper::custom('event.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 					}
 				}
-				if ($this->canDo->get('core.create'))
+				if ($this->canDo->get('event.create'))
 				{
 					JToolBarHelper::custom('event.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 				}
@@ -183,8 +183,8 @@ class BigbluebuttonViewEvent extends JViewLegacy
 		$this->document->addStyleSheet(JURI::root() . "administrator/components/com_bigbluebutton/assets/css/event.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css'); 
 		$this->document->addScript(JURI::root() . $this->script, (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript');
 		$this->document->addScript(JURI::root() . "administrator/components/com_bigbluebutton/views/event/submitbutton.js", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript'); 
-		$this->document->addStyleSheet(JURI::root() . "administrator/components/com_bigbluebutton/assets/css/jquery.datetimepicker.min.css");
-		$this->document->addScript(JURI::root() . "administrator/components/com_bigbluebutton/assets/js/jquery.datetimepicker.full.min.js");
+		$this->document->addStyleSheet(JURI::root() . "media/com_bigbluebutton/css/jquery.datetimepicker.min.css");
+		$this->document->addScript(JURI::root() . "media/com_bigbluebutton/js/jquery.datetimepicker.full.min.js");
 		JText::script('view not acceptable. Error');
 	}
 }

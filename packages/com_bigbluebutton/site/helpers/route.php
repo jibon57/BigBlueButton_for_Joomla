@@ -65,29 +65,29 @@ abstract class BigbluebuttonHelperRoute
 	}
 
 	/**
-	 * @param int The route of the Event
+	 * @param int The route of the Eventview
 	 */
-	public static function getEventRoute($id = 0, $catid = 0)
+	public static function getEventviewRoute($id = 0, $catid = 0)
 	{
 		if ($id > 0)
 		{
 			// Initialize the needel array.
 			$needles = array(
-				'event'  => array((int) $id)
+				'eventview'  => array((int) $id)
 			);
 			// Create the link
-			$link = 'index.php?option=com_bigbluebutton&view=event&id='. $id;
+			$link = 'index.php?option=com_bigbluebutton&view=eventview&id='. $id;
 		}
 		else
 		{
 			// Initialize the needel array.
 			$needles = array();
 			//Create the link but don't add the id.
-			$link = 'index.php?option=com_bigbluebutton&view=event';
+			$link = 'index.php?option=com_bigbluebutton&view=eventview';
 		}
 		if ($catid > 1)
 		{
-			$categories = JCategories::getInstance('bigbluebutton.event');
+			$categories = JCategories::getInstance('bigbluebutton.eventview');
 			$category = $categories->get($catid);
 			if ($category)
 			{
@@ -106,29 +106,29 @@ abstract class BigbluebuttonHelperRoute
 	}
 
 	/**
-	 * @param int The route of the Meeting
+	 * @param int The route of the Meetingview
 	 */
-	public static function getMeetingRoute($id = 0, $catid = 0)
+	public static function getMeetingviewRoute($id = 0, $catid = 0)
 	{
 		if ($id > 0)
 		{
 			// Initialize the needel array.
 			$needles = array(
-				'meeting'  => array((int) $id)
+				'meetingview'  => array((int) $id)
 			);
 			// Create the link
-			$link = 'index.php?option=com_bigbluebutton&view=meeting&id='. $id;
+			$link = 'index.php?option=com_bigbluebutton&view=meetingview&id='. $id;
 		}
 		else
 		{
 			// Initialize the needel array.
 			$needles = array();
 			//Create the link but don't add the id.
-			$link = 'index.php?option=com_bigbluebutton&view=meeting';
+			$link = 'index.php?option=com_bigbluebutton&view=meetingview';
 		}
 		if ($catid > 1)
 		{
-			$categories = JCategories::getInstance('bigbluebutton.meeting');
+			$categories = JCategories::getInstance('bigbluebutton.meetingview');
 			$category = $categories->get($catid);
 			if ($category)
 			{
@@ -211,6 +211,47 @@ abstract class BigbluebuttonHelperRoute
 		if ($catid > 1)
 		{
 			$categories = JCategories::getInstance('bigbluebutton.events');
+			$category = $categories->get($catid);
+			if ($category)
+			{
+				$needles['category'] = array_reverse($category->getPath());
+				$needles['categories'] = $needles['category'];
+				$link .= '&catid='.$catid;
+			}
+		}
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid='.$item;
+		}
+
+		return $link;
+	}
+
+	/**
+	 * @param int The route of the Calendar
+	 */
+	public static function getCalendarRoute($id = 0, $catid = 0)
+	{
+		if ($id > 0)
+		{
+			// Initialize the needel array.
+			$needles = array(
+				'calendar'  => array((int) $id)
+			);
+			// Create the link
+			$link = 'index.php?option=com_bigbluebutton&view=calendar&id='. $id;
+		}
+		else
+		{
+			// Initialize the needel array.
+			$needles = array();
+			//Create the link but don't add the id.
+			$link = 'index.php?option=com_bigbluebutton&view=calendar';
+		}
+		if ($catid > 1)
+		{
+			$categories = JCategories::getInstance('bigbluebutton.calendar');
 			$category = $categories->get($catid);
 			if ($category)
 			{

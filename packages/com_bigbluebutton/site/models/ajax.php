@@ -37,7 +37,7 @@ class BigbluebuttonModelAjax extends JModelList
 		return $result;
 	}
 
-	// Used in event
+	// Used in eventview
 	public function eventLogin($eventId, $password, $name){
 		require_once JPATH_COMPONENT_ADMINISTRATOR."/helpers/bbbManageClass.php";
 		require_once JPATH_COMPONENT_SITE."/models/event.php";
@@ -52,7 +52,7 @@ class BigbluebuttonModelAjax extends JModelList
 	}
 
 
-	// Used in meeting
+	// Used in meetingview
 function test(){
  echo "Test";
 }

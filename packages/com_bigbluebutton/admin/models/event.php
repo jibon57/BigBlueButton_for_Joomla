@@ -70,8 +70,9 @@ class BigbluebuttonModelEvent extends JModelAdmin
 		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_BODY');
 		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_SUCCESS');
 		//JText::_('COM_BIGBLUEBUTTON_ATTENDEE_INVITATION_EMAIL_FAILURE');
+		//JText::_('COM_BIGBLUEBUTTON_ADD_EVENT');
+		//JText::_('COM_BIGBLUEBUTTON_ADD_MEETING');
 	}
-
     
 	/**
 	 * Method to get a single record.
@@ -103,7 +104,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			}
 
 			if(!empty($item->id)){
-				$item->join_url = JURI::root()."index.php?option=com_bigbluebutton&view=event&id=".$item->id;
+				$item->join_url = JURI::root()."index.php?option=com_bigbluebutton&view=eventview&id=".$item->id;
 			}
 			if(empty($item->id)){
 				$item->custom_event_pass = BigbluebuttonHelper::randomkey(10);
@@ -156,8 +157,8 @@ class BigbluebuttonModelEvent extends JModelAdmin
 
 		// Check for existing item.
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('event.edit.state', 'com_bigbluebutton.event.' . (int) $id))
-			|| ($id == 0 && !$user->authorise('event.edit.state', 'com_bigbluebutton')))
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_bigbluebutton.event.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_bigbluebutton')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -173,7 +174,8 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			$form->setValue('created_by', null, $user->id);
 		}
 		// Modify the form based on Edit Creaded By access controls.
-		if (!$user->authorise('core.edit.created_by', 'com_bigbluebutton'))
+		if ($id != 0 && (!$user->authorise('event.edit.created_by', 'com_bigbluebutton.event.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('event.edit.created_by', 'com_bigbluebutton')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('created_by', 'disabled', 'true');
@@ -183,7 +185,8 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			$form->setFieldAttribute('created_by', 'filter', 'unset');
 		}
 		// Modify the form based on Edit Creaded Date access controls.
-		if (!$user->authorise('core.edit.created', 'com_bigbluebutton'))
+		if ($id != 0 && (!$user->authorise('event.edit.created', 'com_bigbluebutton.event.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('event.edit.created', 'com_bigbluebutton')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('created', 'disabled', 'true');
@@ -236,7 +239,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 
 			$user = JFactory::getUser();
 			// The record has been set. Check the record permissions.
-			return $user->authorise('core.delete', 'com_bigbluebutton.event.' . (int) $record->id);
+			return $user->authorise('event.delete', 'com_bigbluebutton.event.' . (int) $record->id);
 		}
 		return false;
 	}
@@ -258,14 +261,14 @@ class BigbluebuttonModelEvent extends JModelAdmin
 		if ($recordId)
 		{
 			// The record has been set. Check the record permissions.
-			$permission = $user->authorise('event.edit.state', 'com_bigbluebutton.event.' . (int) $recordId);
+			$permission = $user->authorise('core.edit.state', 'com_bigbluebutton.event.' . (int) $recordId);
 			if (!$permission && !is_null($permission))
 			{
 				return false;
 			}
 		}
 		// In the absense of better information, revert to the component permissions.
-		return $user->authorise('event.edit.state', 'com_bigbluebutton');
+		return parent::canEditState($record);
 	}
     
 	/**
@@ -282,7 +285,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 		// Check specific edit permission then general edit permission.
 		$user = JFactory::getUser();
 
-		return $user->authorise('core.edit', 'com_bigbluebutton.event.'. ((int) isset($data[$key]) ? $data[$key] : 0)) or $user->authorise('core.edit',  'com_bigbluebutton');
+		return $user->authorise('event.edit', 'com_bigbluebutton.event.'. ((int) isset($data[$key]) ? $data[$key] : 0)) or $user->authorise('event.edit',  'com_bigbluebutton');
 	}
     
 	/**
@@ -532,7 +535,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			$this->canDo		= BigbluebuttonHelper::getActions('event');
 		}
 
-		if (!$this->canDo->get('core.create') || !$this->canDo->get('core.batch'))
+		if (!$this->canDo->get('event.create') && !$this->canDo->get('event.batch'))
 		{
 			return false;
 		}
@@ -547,7 +550,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 		{
 			$values['published'] = 0;
 		}
-		elseif (isset($values['published']) && !$this->canDo->get('event.edit.state'))
+		elseif (isset($values['published']) && !$this->canDo->get('core.edit.state'))
 		{
 				$values['published'] = 0;
 		}
@@ -562,7 +565,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			$this->table->reset();
 
 			// only allow copy if user may edit this item.
-			if (!$this->user->authorise('core.edit', $contexts[$pk]))
+			if (!$this->user->authorise('event.edit', $contexts[$pk]))
 			{
 				// Not fatal error
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
@@ -670,14 +673,14 @@ class BigbluebuttonModelEvent extends JModelAdmin
 			$this->canDo		= BigbluebuttonHelper::getActions('event');
 		}
 
-		if (!$this->canDo->get('core.edit') && !$this->canDo->get('core.batch'))
+		if (!$this->canDo->get('event.edit') && !$this->canDo->get('event.batch'))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 			return false;
 		}
 
 		// make sure published only updates if user has the permission.
-		if (isset($values['published']) && !$this->canDo->get('event.edit.state'))
+		if (isset($values['published']) && !$this->canDo->get('core.edit.state'))
 		{
 			unset($values['published']);
 		}
@@ -687,7 +690,7 @@ class BigbluebuttonModelEvent extends JModelAdmin
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
-			if (!$this->user->authorise('core.edit', $contexts[$pk]))
+			if (!$this->user->authorise('event.edit', $contexts[$pk]))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 				return false;

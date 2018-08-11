@@ -18,16 +18,28 @@
 		<action name="event.resent_email" title="COM_BIGBLUEBUTTON_EVENT_RESENT_EMAIL_BUTTON_ACCESS" description="COM_BIGBLUEBUTTON_EVENT_RESENT_EMAIL_BUTTON_ACCESS_DESC" />
 		<action name="event.access" title="COM_BIGBLUEBUTTON_EVENTS_ACCESS" description="COM_BIGBLUEBUTTON_EVENTS_ACCESS_DESC" />
 		<action name="event.batch" title="COM_BIGBLUEBUTTON_EVENTS_BATCH_USE" description="COM_BIGBLUEBUTTON_EVENTS_BATCH_USE_DESC" />
+		<action name="event.create" title="COM_BIGBLUEBUTTON_EVENTS_CREATE" description="COM_BIGBLUEBUTTON_EVENTS_CREATE_DESC" />
 		<action name="event.dashboard_add" title="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_ADD" description="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_ADD_DESC" />
 		<action name="event.dashboard_list" title="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_LIST" description="COM_BIGBLUEBUTTON_EVENTS_DASHBOARD_LIST_DESC" />
-		<action name="event.edit.state" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE_DESC" />
+		<action name="event.delete" title="COM_BIGBLUEBUTTON_EVENTS_DELETE" description="COM_BIGBLUEBUTTON_EVENTS_DELETE_DESC" />
+		<action name="event.edit" title="COM_BIGBLUEBUTTON_EVENTS_EDIT" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_DESC" />
+		<action name="event.edit.created_by" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_BY" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_BY_DESC" />
+		<action name="event.edit.created" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_DATE" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_DATE_DESC" />
+		<action name="event.edit.own" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN_DESC" />
 		<action name="event.export" title="COM_BIGBLUEBUTTON_EVENTS_EXPORT" description="COM_BIGBLUEBUTTON_EVENTS_EXPORT_DESC" />
 		<action name="event.import" title="COM_BIGBLUEBUTTON_EVENTS_IMPORT" description="COM_BIGBLUEBUTTON_EVENTS_IMPORT_DESC" />
 		<action name="event.submenu" title="COM_BIGBLUEBUTTON_EVENTS_SUBMENU" description="COM_BIGBLUEBUTTON_EVENTS_SUBMENU_DESC" />
 		<action name="meeting.access" title="COM_BIGBLUEBUTTON_MEETINGS_ACCESS" description="COM_BIGBLUEBUTTON_MEETINGS_ACCESS_DESC" />
 		<action name="meeting.batch" title="COM_BIGBLUEBUTTON_MEETINGS_BATCH_USE" description="COM_BIGBLUEBUTTON_MEETINGS_BATCH_USE_DESC" />
+		<action name="meeting.create" title="COM_BIGBLUEBUTTON_MEETINGS_CREATE" description="COM_BIGBLUEBUTTON_MEETINGS_CREATE_DESC" />
 		<action name="meeting.dashboard_add" title="COM_BIGBLUEBUTTON_MEETINGS_DASHBOARD_ADD" description="COM_BIGBLUEBUTTON_MEETINGS_DASHBOARD_ADD_DESC" />
 		<action name="meeting.dashboard_list" title="COM_BIGBLUEBUTTON_MEETINGS_DASHBOARD_LIST" description="COM_BIGBLUEBUTTON_MEETINGS_DASHBOARD_LIST_DESC" />
+		<action name="meeting.delete" title="COM_BIGBLUEBUTTON_MEETINGS_DELETE" description="COM_BIGBLUEBUTTON_MEETINGS_DELETE_DESC" />
+		<action name="meeting.edit" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_DESC" />
+		<action name="meeting.edit.created_by" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_BY" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_BY_DESC" />
+		<action name="meeting.edit.created" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_DATE" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_DATE_DESC" />
+		<action name="meeting.edit.own" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN_DESC" />
+		<action name="meeting.edit.state" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_STATE" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_STATE_DESC" />
 		<action name="meeting.export" title="COM_BIGBLUEBUTTON_MEETINGS_EXPORT" description="COM_BIGBLUEBUTTON_MEETINGS_EXPORT_DESC" />
 		<action name="meeting.import" title="COM_BIGBLUEBUTTON_MEETINGS_IMPORT" description="COM_BIGBLUEBUTTON_MEETINGS_IMPORT_DESC" />
 		<action name="meeting.submenu" title="COM_BIGBLUEBUTTON_MEETINGS_SUBMENU" description="COM_BIGBLUEBUTTON_MEETINGS_SUBMENU_DESC" />
@@ -36,16 +48,23 @@
 		<action name="recording.submenu" title="COM_BIGBLUEBUTTON_RECORDING_SUBMENU" description="COM_BIGBLUEBUTTON_RECORDING_SUBMENU_DESC" />
 	</section>
 	<section name="meeting">
-		<action name="core.create" title="COM_BIGBLUEBUTTON_MEETINGS_CREATE" description="COM_BIGBLUEBUTTON_MEETINGS_CREATE_DESC" />
-		<action name="core.edit" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_DESC" />
-		<action name="core.edit.own" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN_DESC" />
-		<action name="core.delete" title="COM_BIGBLUEBUTTON_MEETINGS_DELETE" description="COM_BIGBLUEBUTTON_MEETINGS_DELETE_DESC" />
+		<action name="meeting.edit" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_DESC" />
+		<action name="meeting.edit.own" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_OWN_DESC" />
+		<action name="meeting.edit.state" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_STATE" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_STATE_DESC" />
+		<action name="meeting.edit.created_by" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_BY" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_BY_DESC" />
+		<action name="meeting.edit.created" title="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_DATE" description="COM_BIGBLUEBUTTON_MEETINGS_EDIT_CREATED_DATE_DESC" />
+		<action name="meeting.create" title="COM_BIGBLUEBUTTON_MEETINGS_CREATE" description="COM_BIGBLUEBUTTON_MEETINGS_CREATE_DESC" />
+		<action name="meeting.delete" title="COM_BIGBLUEBUTTON_MEETINGS_DELETE" description="COM_BIGBLUEBUTTON_MEETINGS_DELETE_DESC" />
+		<action name="meeting.access" title="COM_BIGBLUEBUTTON_MEETINGS_ACCESS" description="COM_BIGBLUEBUTTON_MEETINGS_ACCESS_DESC" />
 	</section>
 	<section name="event">
-		<action name="core.create" title="COM_BIGBLUEBUTTON_EVENTS_CREATE" description="COM_BIGBLUEBUTTON_EVENTS_CREATE_DESC" />
-		<action name="core.edit" title="COM_BIGBLUEBUTTON_EVENTS_EDIT" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_DESC" />
-		<action name="core.edit.own" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN_DESC" />
-		<action name="event.edit.state" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE_DESC" />
-		<action name="core.delete" title="COM_BIGBLUEBUTTON_EVENTS_DELETE" description="COM_BIGBLUEBUTTON_EVENTS_DELETE_DESC" />
+		<action name="event.edit" title="COM_BIGBLUEBUTTON_EVENTS_EDIT" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_DESC" />
+		<action name="event.edit.own" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_OWN_DESC" />
+		<action name="core.edit.state" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_STATE_DESC" />
+		<action name="event.edit.created_by" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_BY" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_BY_DESC" />
+		<action name="event.edit.created" title="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_DATE" description="COM_BIGBLUEBUTTON_EVENTS_EDIT_CREATED_DATE_DESC" />
+		<action name="event.create" title="COM_BIGBLUEBUTTON_EVENTS_CREATE" description="COM_BIGBLUEBUTTON_EVENTS_CREATE_DESC" />
+		<action name="event.delete" title="COM_BIGBLUEBUTTON_EVENTS_DELETE" description="COM_BIGBLUEBUTTON_EVENTS_DELETE_DESC" />
+		<action name="event.access" title="COM_BIGBLUEBUTTON_EVENTS_ACCESS" description="COM_BIGBLUEBUTTON_EVENTS_ACCESS_DESC" />
 	</section>
 </access>
