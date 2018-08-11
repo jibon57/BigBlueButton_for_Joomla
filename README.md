@@ -18,7 +18,7 @@ https://www.hoicoimasti.com/products/8-joomla-extension/9-bigbluebutton-extensio
 3) Pull recordings.
 4) Joomla standard component with module. So, you can use in menu or any module position. 
 5) Items can be add from both backend & frontend
-6) Calendar view for showing events in one calendat.
+6) Calendar view for showing events in one calendar.
 7) More....
 
 How to use this extension?
