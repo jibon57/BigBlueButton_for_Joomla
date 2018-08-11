@@ -42,10 +42,10 @@ class BigbluebuttonViewEvents extends JViewLegacy
 		$this->saveOrder = $this->listOrder == 'ordering';
 		// get global action permissions
 		$this->canDo = BigbluebuttonHelper::getActions('event');
-		$this->canEdit = $this->canDo->get('core.edit');
-		$this->canState = $this->canDo->get('event.edit.state');
-		$this->canCreate = $this->canDo->get('core.create');
-		$this->canDelete = $this->canDo->get('core.delete');
+		$this->canEdit = $this->canDo->get('event.edit');
+		$this->canState = $this->canDo->get('core.edit.state');
+		$this->canCreate = $this->canDo->get('event.create');
+		$this->canDelete = $this->canDo->get('event.delete');
 		$this->canBatch = $this->canDo->get('core.batch');
 
 		// We don't need toolbar in the modal window.

@@ -68,11 +68,11 @@ class BigbluebuttonRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) && isset($query['id']) && ($view === 'login' || $view === 'event' || $view === 'meeting' || $view === 'meetings' || $view === 'events'))
+		if (isset($view) && isset($query['id']) && ($view === 'meeting' || $view === 'event' || $view === 'login' || $view === 'eventview' || $view === 'meetingview' || $view === 'meetings' || $view === 'events' || $view === 'calendar'))
 		{
 			if ($mId != (int) $query['id'] || $mView != $view)
 			{
-				if (($view === 'login' || $view === 'event' || $view === 'meeting' || $view === 'meetings' || $view === 'events'))
+				if (($view === 'meeting' || $view === 'event' || $view === 'login' || $view === 'eventview' || $view === 'meetingview' || $view === 'meetings' || $view === 'events' || $view === 'calendar'))
 				{
 					$segments[] = $view;
 					$id = explode(':', $query['id']);
@@ -117,6 +117,20 @@ class BigbluebuttonRouter extends JComponentRouterBase
 		//Handle View and Identifier
 		switch($segments[0])
 		{
+			case 'meeting':
+				$vars['view'] = 'meeting';
+				if (is_numeric($segments[$count-1]))
+				{
+					$vars['id'] = (int) $segments[$count-1];
+				}
+				break;
+			case 'event':
+				$vars['view'] = 'event';
+				if (is_numeric($segments[$count-1]))
+				{
+					$vars['id'] = (int) $segments[$count-1];
+				}
+				break;
 			case 'login':
 				$vars['view'] = 'login';
 				if (is_numeric($segments[$count-1]))
@@ -132,8 +146,8 @@ class BigbluebuttonRouter extends JComponentRouterBase
 					}
 				}
 				break;
-			case 'event':
-				$vars['view'] = 'event';
+			case 'eventview':
+				$vars['view'] = 'eventview';
 				if (is_numeric($segments[$count-1]))
 				{
 					$vars['id'] = (int) $segments[$count-1];
@@ -147,8 +161,8 @@ class BigbluebuttonRouter extends JComponentRouterBase
 					}
 				}
 				break;
-			case 'meeting':
-				$vars['view'] = 'meeting';
+			case 'meetingview':
+				$vars['view'] = 'meetingview';
 				if (is_numeric($segments[$count-1]))
 				{
 					$vars['id'] = (int) $segments[$count-1];
@@ -179,6 +193,21 @@ class BigbluebuttonRouter extends JComponentRouterBase
 				break;
 			case 'events':
 				$vars['view'] = 'events';
+				if (is_numeric($segments[$count-1]))
+				{
+					$vars['id'] = (int) $segments[$count-1];
+				}
+				elseif ($segments[$count-1])
+				{
+					$id = $this->getVar('event', $segments[$count-1], 'alias', 'id');
+					if($id)
+					{
+						$vars['id'] = $id;
+					}
+				}
+				break;
+			case 'calendar':
+				$vars['view'] = 'calendar';
 				if (is_numeric($segments[$count-1]))
 				{
 					$vars['id'] = (int) $segments[$count-1];

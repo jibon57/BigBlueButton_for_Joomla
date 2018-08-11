@@ -56,7 +56,7 @@ $componentParams = JComponentHelper::getParams('com_bigbluebutton');
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php if ($this->canDo->get('core.delete') || $this->canDo->get('core.edit.created_by') || $this->canDo->get('event.edit.state') || $this->canDo->get('core.edit.created')) : ?>
+	<?php if ($this->canDo->get('event.delete') || $this->canDo->get('event.edit.created_by') || $this->canDo->get('core.edit.state') || $this->canDo->get('event.edit.created')) : ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'eventTab', 'publishing', JText::_('COM_BIGBLUEBUTTON_EVENT_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">

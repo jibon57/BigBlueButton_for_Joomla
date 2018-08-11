@@ -53,7 +53,7 @@ class BigbluebuttonControllerMeeting extends JControllerForm
 			return false;
 		}
 		// In the absense of better information, revert to the component permissions.
-		return parent::allowAdd($data);
+		return JFactory::getUser()->authorise('meeting.create', $this->option);
 	}
 
 	/**
@@ -74,13 +74,20 @@ class BigbluebuttonControllerMeeting extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
 
+		// Access check.
+		$access = ($user->authorise('meeting.access', 'com_bigbluebutton.meeting.' . (int) $recordId) &&  $user->authorise('meeting.access', 'com_bigbluebutton'));
+		if (!$access)
+		{
+			return false;
+		}
+
 		if ($recordId)
 		{
 			// The record has been set. Check the record permissions.
-			$permission = $user->authorise('core.edit', 'com_bigbluebutton.meeting.' . (int) $recordId);
+			$permission = $user->authorise('meeting.edit', 'com_bigbluebutton.meeting.' . (int) $recordId);
 			if (!$permission)
 			{
-				if ($user->authorise('core.edit.own', 'com_bigbluebutton.meeting.' . $recordId))
+				if ($user->authorise('meeting.edit.own', 'com_bigbluebutton.meeting.' . $recordId))
 				{
 					// Now test the owner is the user.
 					$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
@@ -99,7 +106,7 @@ class BigbluebuttonControllerMeeting extends JControllerForm
 					// If the owner matches 'me' then allow.
 					if ($ownerId == $user->id)
 					{
-						if ($user->authorise('core.edit.own', 'com_bigbluebutton'))
+						if ($user->authorise('meeting.edit.own', 'com_bigbluebutton'))
 						{
 							return true;
 						}
@@ -109,7 +116,7 @@ class BigbluebuttonControllerMeeting extends JControllerForm
 			}
 		}
 		// Since there is no permission, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return $user->authorise('meeting.edit', $this->option);
 	}
 
 	/**

@@ -95,7 +95,7 @@ class BigbluebuttonControllerEvents extends JControllerAdmin
 		return;
 	}  
 
-function reSendEmail(){
- //
-}
+	function reSendEmail(){
+		
+	}
 }

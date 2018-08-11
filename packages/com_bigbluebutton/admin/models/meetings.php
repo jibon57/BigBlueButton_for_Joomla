@@ -84,7 +84,22 @@ class BigbluebuttonModelMeetings extends JModelList
 	public function getItems()
 	{ 
 		// load parent items
-		$items = parent::getItems(); 
+		$items = parent::getItems();
+
+		// set values to display correctly.
+		if (BigbluebuttonHelper::checkArray($items))
+		{
+			foreach ($items as $nr => &$item)
+			{
+				$access = (JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton.meeting.' . (int) $item->id) && JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton'));
+				if (!$access)
+				{
+					unset($items[$nr]);
+					continue;
+				}
+
+			}
+		} 
 
 		// set selection value to a translatable value
 		if (BigbluebuttonHelper::checkArray($items))
@@ -97,7 +112,7 @@ class BigbluebuttonModelMeetings extends JModelList
 		}
  
 		foreach($items as &$item){
-			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meeting&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meetingview&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
 		}
         
 		// return items
@@ -244,6 +259,13 @@ class BigbluebuttonModelMeetings extends JModelList
 				{
 					foreach ($items as $nr => &$item)
 					{
+						$access = (JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton.meeting.' . (int) $item->id) && JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton'));
+						if (!$access)
+						{
+							unset($items[$nr]);
+							continue;
+						}
+
 						// unset the values we don't want exported.
 						unset($item->asset_id);
 						unset($item->checked_out);
@@ -258,7 +280,7 @@ class BigbluebuttonModelMeetings extends JModelList
 				}
 
 				foreach($items as &$item){
-			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meeting&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
+			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meetingview&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
 		}
 				return $items;
 			}

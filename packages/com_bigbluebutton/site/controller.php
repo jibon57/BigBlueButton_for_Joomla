@@ -110,7 +110,8 @@ class BigbluebuttonController extends JControllerLegacy
 		if (BigbluebuttonHelper::checkString($view))
 		{
 			$views = array(
-
+				'meeting',
+				'event'
 				);
 			// check if this is a edit view
 			if (in_array($view,$views))
