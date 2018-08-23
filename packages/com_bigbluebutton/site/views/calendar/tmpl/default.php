@@ -13,7 +13,8 @@
 defined('_JEXEC') or die('Restricted access'); 
 
 ?>
-<?php echo $this->toolbar->render(); ?> <?php
+<?php echo $this->toolbar->render(); ?> 
+<?php
 
 JHtml::_('jquery.framework'); 
 $document = JFactory::getDocument();
@@ -21,8 +22,15 @@ $document->addStyleSheet(JURI::root() . "media/com_bigbluebutton/css/fullcalenda
 $document->addScript(JURI::root() . "media/com_bigbluebutton/js/moment.min.js");
 $document->addScript(JURI::root() . "media/com_bigbluebutton/js/fullcalendar.min.js");
 $itemId = JFactory::getApplication()->getMenu()->getActive()->id;
+$config = JFactory::getConfig();
+$isActiveSEF = $config->get('sef');
+
 foreach($this->items as $item){
-	$item->join_url = rtrim(JURI::root(), '/').JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$item->id."&Itemid=".$itemId);
+	$alias = $item->id;
+	if($isActiveSEF){
+		$alias = $item->alias;
+	}
+	$item->join_url = JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$alias."&Itemid=".$itemId);
 }
 ?>
 <script>
@@ -51,15 +59,4 @@ foreach($this->items as $item){
 		})
 	})
 </script>
-<div id='bbbEventCalendar'></div>
-
-<?php if (isset($this->items) && isset($this->pagination) && isset($this->pagination->pagesTotal) && $this->pagination->pagesTotal > 1): ?>
-<form name="adminForm" method="post">
-	<div class="pagination">
-		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-			<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> <?php echo $this->pagination->getLimitBox(); ?></p>
-		<?php endif; ?>
-		<?php echo $this->pagination->getPagesLinks(); ?>
-	</div>
-</form>
-<?php endif; ?> 
+<div id='bbbEventCalendar'></div> 

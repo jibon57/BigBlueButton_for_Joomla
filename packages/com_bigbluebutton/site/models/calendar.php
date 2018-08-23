@@ -51,6 +51,8 @@ class BigbluebuttonModelCalendar extends JModelList
 		$this->app = JFactory::getApplication();
 		$this->input = $this->app->input;
 		$this->initSet = true; 
+		// Make sure all records load, since no pagination allowed.
+		$this->setState('list.limit', 0);
 		// Get a db connection.
 		$db = JFactory::getDbo();
 
@@ -99,7 +101,7 @@ class BigbluebuttonModelCalendar extends JModelList
 				// Since all values are now in text (Joomla Limitation), we also add the field name (event_des) to context
 				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.event_des', &$_event_des, &$this->params, 0));
 				// set meeting_idIdMeetingB to the $item object.
-				$item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingAfbf_B($item->meeting_id);
+				$item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingAbda_B($item->meeting_id);
 			}
 		} 
 
@@ -113,7 +115,7 @@ class BigbluebuttonModelCalendar extends JModelList
 	 * @return mixed  An array of Meeting Objects on success, false on failure.
 	 *
 	 */
-	public function getMeeting_idIdMeetingAfbf_B($meeting_id)
+	public function getMeeting_idIdMeetingAbda_B($meeting_id)
 	{
 		// Get a db connection.
 		$db = JFactory::getDbo();

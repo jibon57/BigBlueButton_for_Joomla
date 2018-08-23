@@ -16,11 +16,20 @@ defined('_JEXEC') or die('Restricted access');
 <?php echo $this->toolbar->render(); ?> <?php
 $itemId = JFactory::getApplication()->getMenu()->getActive()->id;
 ?>
-<?php foreach ($this->items as $item): ?>
+<?php 
+$config = JFactory::getConfig();
+$isActiveSEF = $config->get('sef');
+
+foreach ($this->items as $item):
+$alias = $item->id;
+if($isActiveSEF){
+	$alias = $item->alias;
+}
+?>
 <div id="bbbMeeting" class="bbbMeeting">
 	<div class="bbb-heading">
 		<h1 class="bbb-page-heading">
-			<span class="title"><a href="<?php echo JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$item->id."&Itemid=".$itemId)?>" ><?php echo $item->event_title; ?></a></span>
+			<span class="title"><a href="<?php echo JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$alias."&Itemid=".$itemId)?>" ><?php echo $item->event_title; ?></a></span>
 		</h1>
 	</div>
 	
@@ -30,7 +39,7 @@ $itemId = JFactory::getApplication()->getMenu()->getActive()->id;
 		</div>
 		
 		<div class="detailsLink">
-			<a class="btn btn-success" href="<?php echo JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$item->id."&Itemid=".$itemId)?>" ><?php echo JText::_('COM_BIGBLUEBUTTON_DETAILS'); ?></a>
+			<a class="btn btn-success" href="<?php echo JRoute::_("index.php?option=com_bigbluebutton&view=eventview&id=".$alias."&Itemid=".$itemId)?>" ><?php echo JText::_('COM_BIGBLUEBUTTON_DETAILS'); ?></a>
 		</div>
 	</div>
 </div>

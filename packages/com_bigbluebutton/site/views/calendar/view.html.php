@@ -31,7 +31,6 @@ class BigbluebuttonViewCalendar extends JViewLegacy
 		$this->user = JFactory::getUser();
 		// Initialise variables.
 		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
 
 		// Set the toolbar
 		$this->addToolBar();
