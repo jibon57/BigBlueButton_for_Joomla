@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-require_once JPATH_COMPONENT_ADMINISTRATOR."/libs/bigbluebutton-api-php/vendor/autoload.php";
+require_once JPATH_ROOT."/administrator/components/com_bigbluebutton/libs/bigbluebutton-api-php/vendor/autoload.php";
 
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters;
