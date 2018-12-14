@@ -93,15 +93,24 @@ class BigbluebuttonModelCalendar extends JModelList
 			$this->_dispatcher = JEventDispatcher::getInstance();
 			foreach ($items as $nr => &$item)
 			{
-				// Always create a slug for sef URL's
-				$item->slug = (isset($item->alias) && isset($item->id)) ? $item->id.':'.$item->alias : $item->id;
-				// Make sure the content prepare plugins fire on event_des
-				$_event_des = new stdClass();
-				$_event_des->text =& $item->event_des; // value must be in text
-				// Since all values are now in text (Joomla Limitation), we also add the field name (event_des) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.event_des', &$_event_des, &$this->params, 0));
-				// set meeting_idIdMeetingB to the $item object.
-				$item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingAbda_B($item->meeting_id);
+				// Access check.
+				$access = ($user->authorise('event.access', 'com_bigbluebutton.event.' . (int) $item->id) &&  $user->authorise('event.access', 'com_bigbluebutton'));
+				if (!$access)
+				{
+				    unset($items[$nr]);
+				    continue;
+				}else{
+
+				    // Always create a slug for sef URL's
+				    $item->slug = (isset($item->alias) && isset($item->id)) ? $item->id . ':' . $item->alias : $item->id;
+				    // Make sure the content prepare plugins fire on event_des
+				    $_event_des = new stdClass();
+				    $_event_des->text =& $item->event_des; // value must be in text
+				    // Since all values are now in text (Joomla Limitation), we also add the field name (event_des) to context
+				    $this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.event_des', &$_event_des, &$this->params, 0));
+				    // set meeting_idIdMeetingB to the $item object.
+				    $item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingAbda_B($item->meeting_id);
+				}
 			}
 		} 
 
