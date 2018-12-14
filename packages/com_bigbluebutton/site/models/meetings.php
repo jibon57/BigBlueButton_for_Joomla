@@ -91,13 +91,20 @@ class BigbluebuttonModelMeetings extends JModelList
 			$this->_dispatcher = JEventDispatcher::getInstance();
 			foreach ($items as $nr => &$item)
 			{
-				// Always create a slug for sef URL's
-				$item->slug = (isset($item->alias) && isset($item->id)) ? $item->id.':'.$item->alias : $item->id;
-				// Make sure the content prepare plugins fire on description
-				$_description = new stdClass();
-				$_description->text =& $item->description; // value must be in text
-				// Since all values are now in text (Joomla Limitation), we also add the field name (description) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.meetings.description', &$_description, &$this->params, 0));
+				$access = (JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton.meeting.' . (int) $item->id) && JFactory::getUser()->authorise('meeting.access', 'com_bigbluebutton'));
+				if (!$access)
+				{
+				    unset($items[$nr]);
+				    continue;
+				}else{
+				    // Always create a slug for sef URL's
+				    $item->slug = (isset($item->alias) && isset($item->id)) ? $item->id . ':' . $item->alias : $item->id;
+				    // Make sure the content prepare plugins fire on description
+				    $_description = new stdClass();
+				    $_description->text =& $item->description; // value must be in text
+				    // Since all values are now in text (Joomla Limitation), we also add the field name (description) to context
+				    $this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.meetings.description', &$_description, &$this->params, 0));
+				}
 			}
 		} 
 
