@@ -1,30 +1,27 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 ?>
-<?php echo $this->toolbar->render(); ?> <?php 
-$options = array();
-$options[] = JHtml::_('select.option', '', JText::_('COM_BIGBLUEBUTTON_SELECT_MEETING_ROOM'));
-
-foreach($this->items as $item){
-	$options[] = JHtml::_('select.option', $item->id, $item->title);
-}
-
+<?php echo $this->toolbar->render(); ?>
+<?php 
+//JText::_('COM_BIGBLUEBUTTON_SELECT_MEETING_ROOM');
 JHtml::_('jquery.framework'); 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery("document").ready(function($){
-		$("#bbbLoginFrom").submit(function(e){
+		var meetings = \''. json_encode($this->items) .'\';
+		meetings = JSON.parse(meetings);
+		$("#bbbLoginForm").submit(function(e){
 			e.preventDefault();
 			var data = $(this).serialize();
 			$.ajax({
@@ -49,19 +46,56 @@ JFactory::getDocument()->addScriptDeclaration('
 					$("#status").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
 				}
 			})
-		})
+		});
+
+		$("#categoryid").on("change", function(e){
+			var catid = $(this).val();
+			getMeetings(catid);
+		});
+
+		var initVal = $("#categoryid").val();
+		if(initVal){
+			getMeetings(initVal);
+		}
+
+		function getMeetings(catid){
+
+			$("#meetingId").find("option").remove();
+
+			for(var i = 0; i < meetings.length; i++){
+				var met = meetings[i];
+				if(met.catid == catid){
+
+					$("#meetingId")
+					.append($("<option></option>")
+                    .attr("value", met.id)
+                    .text(met.title)); 
+
+				}
+			}
+		}
 	})
 ');
 ?>
-<form id="bbbLoginFrom" class="uk-form uk-form-horizontal">
+<form action="" ethod="post" name="bbbLoginForm" id="bbbLoginForm">
     <fieldset>
         <legend><?php echo JText::_('COM_BIGBLUEBUTTON_MEEETING_LOGIN_FORM'); ?></legend>
 		<div style="color: red; margin-bottom: 10px;" id="status"></div>
 
         <div class="uk-form-row">
+			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_CATEGORY'); ?></label>
+			<div class="uk-form-controls">
+				<?php 
+				 $catOptions = JHtml::_('category.options', 'com_bigbluebutton.meetings'); 
+				 echo JHtmlSelect::genericlist($catOptions, 'categoryid', 'class="category"', 'value', 'text');
+				?>
+			</div>
+		</div>
+
+        <div class="uk-form-row">
 			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_ROOM'); ?></label>
 			<div class="uk-form-controls">
-				<?php echo JHtmlSelect::genericlist($options, 'meetingId', 'class="meeting"', 'value', 'text'); ?>
+				<select id="meetingId" name="meetingId" class="meeting"></select>
 			</div>
 		</div>
 		
@@ -90,14 +124,3 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
    </fieldset>
 </form>  
-
-<?php if (isset($this->items) && isset($this->pagination) && isset($this->pagination->pagesTotal) && $this->pagination->pagesTotal > 1): ?>
-<form name="adminForm" method="post">
-	<div class="pagination">
-		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-			<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> <?php echo $this->pagination->getLimitBox(); ?></p>
-		<?php endif; ?>
-		<?php echo $this->pagination->getPagesLinks(); ?>
-	</div>
-</form>
-<?php endif; ?> 

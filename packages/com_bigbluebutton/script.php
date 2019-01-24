@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
@@ -13,8 +13,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 JHTML::_('behavior.modal');
-jimport('joomla.installer.installer');
-jimport('joomla.installer.helper');
 
 /**
  * Script File of Bigbluebutton Component
@@ -124,7 +122,7 @@ class com_bigbluebuttonInstallerScript
 			echo '<a target="_blank" href="https://www.hoicoimasti.com" title="BigBlueButton">
 				<img src="components/com_bigbluebutton/assets/images/vdm-component.png"/>
 				</a>
-				<h3>Upgrade to Version 2.0.4 Was Successful! Let us know if anything is not working as expected.</h3>';
+				<h3>Upgrade to Version 2.0.5 Was Successful! Let us know if anything is not working as expected.</h3>';
 		}
 	}
 }

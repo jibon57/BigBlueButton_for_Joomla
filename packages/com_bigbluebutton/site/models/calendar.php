@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import the Joomla modellist library
-jimport('joomla.application.component.modellist');
 
 /**
  * Bigbluebutton Model for Calendar
@@ -61,8 +58,8 @@ class BigbluebuttonModelCalendar extends JModelList
 
 		// Get from #__bigbluebutton_event as a
 		$query->select($db->quoteName(
-			array('a.id','a.asset_id','a.meeting_id','a.event_title','a.alias','a.event_des','a.event_start','a.event_end','a.timezone','a.event_timezone','a.event_password','a.custom_event_pass','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
-			array('id','asset_id','meeting_id','event_title','alias','event_des','event_start','event_end','timezone','event_timezone','event_password','custom_event_pass','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
+			array('a.id','a.asset_id','a.meeting_id','a.catid','a.event_title','a.alias','a.event_des','a.emails','a.send_invitation_email','a.event_start','a.event_end','a.timezone','a.event_timezone','a.event_password','a.custom_event_pass','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
+			array('id','asset_id','meeting_id','catid','event_title','alias','event_des','emails','send_invitation_email','event_start','event_end','timezone','event_timezone','event_password','custom_event_pass','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
 		$query->from($db->quoteName('#__bigbluebutton_event', 'a'));
 		// Get where a.published is 1
 		$query->where('a.published = 1');
@@ -78,7 +75,7 @@ class BigbluebuttonModelCalendar extends JModelList
 	 */
 	public function getItems()
 	{
-		$user = JFactory::getUser();  
+		$user = JFactory::getUser();
 		// load parent items
 		$items = parent::getItems();
 
@@ -95,19 +92,26 @@ class BigbluebuttonModelCalendar extends JModelList
 			{
 				// Always create a slug for sef URL's
 				$item->slug = (isset($item->alias) && isset($item->id)) ? $item->id.':'.$item->alias : $item->id;
+				// Check if item has params, or pass whole item.
+				$params = (isset($item->params) && BigbluebuttonHelper::checkJson($item->params)) ? json_decode($item->params) : $item;
+				// Make sure the content prepare plugins fire on emails
+				$_emails = new stdClass();
+				$_emails->text =& $item->emails; // value must be in text
+				// Since all values are now in text (Joomla Limitation), we also add the field name (emails) to context
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.emails', &$_emails, &$params, 0));
 				// Make sure the content prepare plugins fire on event_des
 				$_event_des = new stdClass();
 				$_event_des->text =& $item->event_des; // value must be in text
 				// Since all values are now in text (Joomla Limitation), we also add the field name (event_des) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.event_des', &$_event_des, &$this->params, 0));
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.calendar.event_des', &$_event_des, &$params, 0));
 				// set meeting_idIdMeetingB to the $item object.
-				$item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingAbda_B($item->meeting_id);
+				$item->meeting_idIdMeetingB = $this->getMeeting_idIdMeetingBdcf_B($item->meeting_id);
 			}
-		} 
+		}
 
 		// return items
 		return $items;
-	} 
+	}
 
 	/**
 	 * Method to get an array of Meeting Objects.
@@ -115,7 +119,7 @@ class BigbluebuttonModelCalendar extends JModelList
 	 * @return mixed  An array of Meeting Objects on success, false on failure.
 	 *
 	 */
-	public function getMeeting_idIdMeetingAbda_B($meeting_id)
+	public function getMeeting_idIdMeetingBdcf_B($meeting_id)
 	{
 		// Get a db connection.
 		$db = JFactory::getDbo();
@@ -141,5 +145,5 @@ class BigbluebuttonModelCalendar extends JModelList
 		}
 		return false;
 	}
-  
+
 }

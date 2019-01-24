@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import the Joomla modellist library
-jimport('joomla.application.component.modellist');
 
 /**
  * Meetings Model
@@ -30,7 +27,10 @@ class BigbluebuttonModelMeetings extends JModelList
 				'a.ordering','ordering',
 				'a.created_by','created_by',
 				'a.modified_by','modified_by',
-				'a.title','title'
+				'a.title','title',
+				'c.title','category_title',
+				'c.id', 'category_id',
+				'a.catid', 'catid'
 			);
 		}
 
@@ -53,6 +53,15 @@ class BigbluebuttonModelMeetings extends JModelList
 		}
 		$title = $this->getUserStateFromRequest($this->context . '.filter.title', 'filter_title');
 		$this->setState('filter.title', $title);
+
+		$category = $app->getUserStateFromRequest($this->context . '.filter.category', 'filter_category');
+		$this->setState('filter.category', $category);
+
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+
+		$catid = $app->getUserStateFromRequest($this->context . '.filter.catid', 'filter_catid');
+		$this->setState('filter.catid', $catid);
         
 		$sorting = $this->getUserStateFromRequest($this->context . '.filter.sorting', 'filter_sorting', 0, 'int');
 		$this->setState('filter.sorting', $sorting);
@@ -82,7 +91,7 @@ class BigbluebuttonModelMeetings extends JModelList
 	 * @return  mixed  An array of data items on success, false on failure.
 	 */
 	public function getItems()
-	{ 
+	{
 		// load parent items
 		$items = parent::getItems();
 
@@ -99,7 +108,7 @@ class BigbluebuttonModelMeetings extends JModelList
 				}
 
 			}
-		} 
+		}
 
 		// set selection value to a translatable value
 		if (BigbluebuttonHelper::checkArray($items))
@@ -110,7 +119,7 @@ class BigbluebuttonModelMeetings extends JModelList
 				$item->record = $this->selectionTranslation($item->record, 'record');
 			}
 		}
- 
+
 		foreach($items as &$item){
 			$item->join_url = "<a href='".JURI::root()."index.php?option=com_bigbluebutton&view=meetingview&id=".$item->id."' target='_blank'> ". JText::_("COM_BIGBLUEBUTTON_GET_LINK")."</a>";
 		}
@@ -157,9 +166,11 @@ class BigbluebuttonModelMeetings extends JModelList
 
 		// Select some fields
 		$query->select('a.*');
+		$query->select($db->quoteName('c.title','category_title'));
 
 		// From the bigbluebutton_item table
 		$query->from($db->quoteName('#__bigbluebutton_meeting', 'a'));
+		$query->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON (' . $db->quoteName('a.catid') . ' = ' . $db->quoteName('c.id') . ')');
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
@@ -197,8 +208,30 @@ class BigbluebuttonModelMeetings extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search) . '%');
-				$query->where('(a.title LIKE '.$search.')');
+				$query->where('(a.title LIKE '.$search.' OR a.catid LIKE '.$search.')');
 			}
+		}
+
+
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+
+		if (is_numeric($categoryId))
+		{
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= ' . (int) $lft)
+				->where('c.rgt <= ' . (int) $rgt);
+		}
+		elseif (is_array($categoryId))
+		{
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.category IN (' . $categoryId . ')');
 		}
 
 
@@ -313,7 +346,7 @@ class BigbluebuttonModelMeetings extends JModelList
 			return $headers;
 		}
 		return false;
-	} 
+	}
 	
 	/**
 	 * Method to get a store id based on model configuration state.
@@ -331,6 +364,9 @@ class BigbluebuttonModelMeetings extends JModelList
 		$id .= ':' . $this->getState('filter.created_by');
 		$id .= ':' . $this->getState('filter.modified_by');
 		$id .= ':' . $this->getState('filter.title');
+		$id .= ':' . $this->getState('filter.category');
+		$id .= ':' . $this->getState('filter.category_id');
+		$id .= ':' . $this->getState('filter.catid');
 
 		return parent::getStoreId($id);
 	}

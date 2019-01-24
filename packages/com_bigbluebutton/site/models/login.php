@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import the Joomla modellist library
-jimport('joomla.application.component.modellist');
 
 /**
  * Bigbluebutton Model for Login
@@ -51,6 +48,8 @@ class BigbluebuttonModelLogin extends JModelList
 		$this->app = JFactory::getApplication();
 		$this->input = $this->app->input;
 		$this->initSet = true; 
+		// Make sure all records load, since no pagination allowed.
+		$this->setState('list.limit', 0);
 		// Get a db connection.
 		$db = JFactory::getDbo();
 
@@ -59,8 +58,8 @@ class BigbluebuttonModelLogin extends JModelList
 
 		// Get from #__bigbluebutton_meeting as a
 		$query->select($db->quoteName(
-			array('a.id','a.asset_id','a.meetingid','a.title','a.alias','a.description','a.moderatorpw','a.attendeepw','a.maxparticipants','a.record','a.duration','a.enable_htmlfive','a.branding','a.copyright','a.logo','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
-			array('id','asset_id','meetingid','title','alias','description','moderatorpw','attendeepw','maxparticipants','record','duration','enable_htmlfive','branding','copyright','logo','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
+			array('a.id','a.meetingid','a.title','a.catid'),
+			array('id','meetingid','title','catid')));
 		$query->from($db->quoteName('#__bigbluebutton_meeting', 'a'));
 		// Get where a.published is 1
 		$query->where('a.published = 1');
@@ -76,7 +75,7 @@ class BigbluebuttonModelLogin extends JModelList
 	 */
 	public function getItems()
 	{
-		$user = JFactory::getUser();  
+		$user = JFactory::getUser();
 		// load parent items
 		$items = parent::getItems();
 
@@ -86,23 +85,14 @@ class BigbluebuttonModelLogin extends JModelList
 		// Insure all item fields are adapted where needed.
 		if (BigbluebuttonHelper::checkArray($items))
 		{
-			// Load the JEvent Dispatcher
-			JPluginHelper::importPlugin('content');
-			$this->_dispatcher = JEventDispatcher::getInstance();
 			foreach ($items as $nr => &$item)
 			{
 				// Always create a slug for sef URL's
 				$item->slug = (isset($item->alias) && isset($item->id)) ? $item->id.':'.$item->alias : $item->id;
-				// Make sure the content prepare plugins fire on description
-				$_description = new stdClass();
-				$_description->text =& $item->description; // value must be in text
-				// Since all values are now in text (Joomla Limitation), we also add the field name (description) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.login.description', &$_description, &$this->params, 0));
 			}
-		} 
+		}
 
 		// return items
 		return $items;
-	} 
-  
+	}
 }

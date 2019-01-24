@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla modelitem library
-jimport('joomla.application.component.modelitem');
 
 /**
  * Bigbluebutton Eventview Model
@@ -105,8 +102,8 @@ class BigbluebuttonModelEventview extends JModelItem
 
 				// Get from #__bigbluebutton_event as a
 				$query->select($db->quoteName(
-			array('a.id','a.asset_id','a.meeting_id','a.event_title','a.alias','a.event_des','a.event_start','a.event_end','a.timezone','a.event_timezone','a.event_password','a.custom_event_pass','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
-			array('id','asset_id','meeting_id','event_title','alias','event_des','event_start','event_end','timezone','event_timezone','event_password','custom_event_pass','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
+			array('a.id','a.asset_id','a.meeting_id','a.catid','a.event_title','a.alias','a.event_des','a.emails','a.send_invitation_email','a.event_start','a.event_end','a.timezone','a.event_timezone','a.event_password','a.custom_event_pass','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
+			array('id','asset_id','meeting_id','catid','event_title','alias','event_des','emails','send_invitation_email','event_start','event_end','timezone','event_timezone','event_password','custom_event_pass','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
 				$query->from($db->quoteName('#__bigbluebutton_event', 'a'));
 
 				// Get from #__bigbluebutton_meeting as b
@@ -134,16 +131,25 @@ class BigbluebuttonModelEventview extends JModelItem
 			// Load the JEvent Dispatcher
 			JPluginHelper::importPlugin('content');
 			$this->_dispatcher = JEventDispatcher::getInstance();
+				// Check if item has params, or pass whole item.
+				$params = (isset($data->params) && BigbluebuttonHelper::checkJson($data->params)) ? json_decode($data->params) : $data;
+				// Make sure the content prepare plugins fire on emails
+				$_emails = new stdClass();
+				$_emails->text =& $data->emails; // value must be in text
+				// Since all values are now in text (Joomla Limitation), we also add the field name (emails) to context
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.eventview.emails', &$_emails, &$params, 0));
 				// Make sure the content prepare plugins fire on event_des
 				$_event_des = new stdClass();
 				$_event_des->text =& $data->event_des; // value must be in text
 				// Since all values are now in text (Joomla Limitation), we also add the field name (event_des) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.eventview.event_des', &$_event_des, &$this->params, 0));
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.eventview.event_des', &$_event_des, &$params, 0));
+				// Check if item has params, or pass whole item.
+				$params = (isset($data->params) && BigbluebuttonHelper::checkJson($data->params)) ? json_decode($data->params) : $data;
 				// Make sure the content prepare plugins fire on meeting_description
 				$_meeting_description = new stdClass();
 				$_meeting_description->text =& $data->meeting_description; // value must be in text
 				// Since all values are now in text (Joomla Limitation), we also add the field name (meeting_description) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.eventview.meeting_description', &$_meeting_description, &$this->params, 0));
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.eventview.meeting_description', &$_meeting_description, &$params, 0));
 
 				// set data object to item.
 				$this->_item[$pk] = $data;
@@ -164,6 +170,5 @@ class BigbluebuttonModelEventview extends JModelItem
 		}
 
 		return $this->_item[$pk];
-	} 
-  
+	}
 }

@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla view library
-jimport('joomla.application.component.view');
 
 /**
  * Bigbluebutton View class for the Meetings
@@ -59,7 +56,7 @@ class BigbluebuttonViewMeetings extends JViewLegacy
 		// Load the header checker class.
 		require_once( JPATH_COMPONENT_SITE.'/helpers/headercheck.php' );
 		// Initialize the header checker.
-		$HeaderCheck = new bigbluebuttonHeaderCheck;    
+		$HeaderCheck = new bigbluebuttonHeaderCheck;
 		// load the meta description
 		if ($this->params->get('menu-meta_description'))
 		{
@@ -74,9 +71,9 @@ class BigbluebuttonViewMeetings extends JViewLegacy
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
-		} 
+		}
 		// add the document default css file
-		$this->document->addStyleSheet(JURI::root(true) .'/components/com_bigbluebutton/assets/css/meetings.css', (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css'); 
+		$this->document->addStyleSheet(JURI::root(true) .'/components/com_bigbluebutton/assets/css/meetings.css', (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');
 	}
 
 	/**

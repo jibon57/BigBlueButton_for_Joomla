@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla view library
-jimport('joomla.application.component.view');
 
 /**
  * Event View class
@@ -26,27 +23,37 @@ class BigbluebuttonViewEvent extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// set params
+		$this->params = JComponentHelper::getParams('com_bigbluebutton');
 		// Assign the variables
-		$this->form 		= $this->get('Form');
-		$this->item 		= $this->get('Item');
-		$this->script 		= $this->get('Script');
-		$this->state		= $this->get('State');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->script = $this->get('Script');
+		$this->state = $this->get('State');
 		// get action permissions
-		$this->canDo		= BigbluebuttonHelper::getActions('event',$this->item);
+		$this->canDo = BigbluebuttonHelper::getActions('event', $this->item);
 		// get input
 		$jinput = JFactory::getApplication()->input;
-		$this->ref 		= $jinput->get('ref', 0, 'word');
-		$this->refid            = $jinput->get('refid', 0, 'int');
-		$this->referral         = '';
-		if ($this->refid)
+		$this->ref = $jinput->get('ref', 0, 'word');
+		$this->refid = $jinput->get('refid', 0, 'int');
+		$return = $jinput->get('return', null, 'base64');
+		// set the referral string
+		$this->referral = '';
+		if ($this->refid && $this->ref)
 		{
-				// return to the item that refered to this item
-				$this->referral = '&ref='.(string)$this->ref.'&refid='.(int)$this->refid;
+			// return to the item that referred to this item
+			$this->referral = '&ref=' . (string)$this->ref . '&refid=' . (int)$this->refid;
 		}
 		elseif($this->ref)
 		{
-				// return to the list view that refered to this item
-				$this->referral = '&ref='.(string)$this->ref;
+			// return to the list view that referred to this item
+			$this->referral = '&ref=' . (string)$this->ref;
+		}
+		// check return value
+		if (!is_null($return))
+		{
+			// add the return value
+			$this->referral .= '&return=' . (string)$return;
 		}
 
 		// Set the toolbar
@@ -80,7 +87,7 @@ class BigbluebuttonViewEvent extends JViewLegacy
 
 		JToolbarHelper::title( JText::_($isNew ? 'COM_BIGBLUEBUTTON_EVENT_NEW' : 'COM_BIGBLUEBUTTON_EVENT_EDIT'), 'pencil-2 article-add');
 		// Built the actions for new and existing records.
-		if ($this->refid || $this->ref)
+		if (BigbluebuttonHelper::checkString($this->referral))
 		{
 			if ($this->canDo->get('event.create') && $isNew)
 			{
@@ -184,11 +191,11 @@ class BigbluebuttonViewEvent extends JViewLegacy
 			$this->document = JFactory::getDocument();
 		}
 		$this->document->setTitle(JText::_($isNew ? 'COM_BIGBLUEBUTTON_EVENT_NEW' : 'COM_BIGBLUEBUTTON_EVENT_EDIT'));
-		// we need this to fix the form display
+		// we need this to fix the form display (TODO)
 		$this->document->addStyleSheet(JURI::root()."administrator/templates/isis/css/template.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');
 		$this->document->addScript(JURI::root()."administrator/templates/isis/js/template.js", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript');
 		// the default style of this view
-		$this->document->addStyleSheet(JURI::root()."components/com_bigbluebutton/assets/css/event.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css'); 
+		$this->document->addStyleSheet(JURI::root()."components/com_bigbluebutton/assets/css/event.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');
 		// default javascript of this view
 		$this->document->addScript(JURI::root().$this->script, (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript');
 		$this->document->addScript(JURI::root(). "components/com_bigbluebutton/views/event/submitbutton.js", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript'); 

@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla controller library
-jimport('joomla.application.component.controller');
 
 /**
  * Bigbluebutton Component Controller
@@ -47,7 +44,7 @@ class BigbluebuttonController extends JControllerLegacy
 		}
 		
 		// Check for edit form.
-		if($isEdit)
+		/*if($isEdit)
 		{
 			if ($layout == 'edit' && !$this->checkEditId('com_bigbluebutton.edit.'.$view, $id))
 			{
@@ -75,7 +72,7 @@ class BigbluebuttonController extends JControllerLegacy
 				}
 				return false;
 			}
-		}
+		}*/
 		
 		// we may need to make this more dynamic in the future. (TODO)
 		$safeurlparams = array(

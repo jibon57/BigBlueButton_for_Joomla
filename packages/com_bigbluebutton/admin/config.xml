@@ -7,68 +7,108 @@
 		label="COM_BIGBLUEBUTTON_CONFIG_GLOBAL_LABEL"
 		description="COM_BIGBLUEBUTTON_CONFIG_GLOBAL_DESC">
 
-		<!-- Bbb_url Field. Type: Text. (joomla) -->
-		<field
-			type="text"
-			name="bbb_url"
-			label="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_LABEL"
-			size="10"
-			maxlength="255"
-			default="http://test-install.blindsidenetworks.com/bigbluebutton/"
-			description="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_DESCRIPTION"
-			class="text_area"
-			readonly="false"
-			disabled="false"
-			required="true"
-			filter="STRING"
-			message="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_MESSAGE"
-			hint="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_HINT"
-			autocomplete="on"
-		/>
-		<!-- Bbb_salt Field. Type: Text. (joomla) -->
-		<field
-			type="text"
-			name="bbb_salt"
-			label="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_LABEL"
-			size="10"
-			maxlength="50"
-			default="8cd8ef52e8e101574e400365b55e11a6"
-			description="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_DESCRIPTION"
-			class="text_area"
-			readonly="false"
-			disabled="false"
-			required="true"
-			filter="STRING"
-			message="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_MESSAGE"
-			hint="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_HINT"
-			autocomplete="on"
-		/>
-		<!-- Logo Field. Type: Media. (joomla) -->
-		<field
-			type="media"
-			name="logo"
-			label="COM_BIGBLUEBUTTON_CONFIG_LOGO_LABEL"
-			description="COM_BIGBLUEBUTTON_CONFIG_LOGO_DESCRIPTION"
-			directory=""
-			preview="false"
-		/>
-		<!-- Copyright Field. Type: Text. (joomla) -->
-		<field
-			type="text"
-			name="copyright"
-			label="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_LABEL"
-			size="10"
-			maxlength="50"
-			description="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_DESCRIPTION"
-			class="text_area"
-			readonly="false"
-			disabled="false"
-			required="false"
-			filter="STRING"
-			message="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_MESSAGE"
-			hint="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_HINT"
-			autocomplete="on"
-		/>
+	<!--  Bbb_url Field. Type: Text. (joomla) -->
+	<field type="text"
+        
+                      name="bbb_url"
+        
+                      label="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_LABEL"
+        
+                      size="10"
+        
+                      maxlength="255"
+        
+                      default="http://test-install.blindsidenetworks.com/bigbluebutton/"
+        
+                      description="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_DESCRIPTION"
+        
+                      class="text_area"
+        
+                      readonly="false"
+        
+                      disabled="false"
+        
+                      required="true"
+        
+                      filter="STRING"
+        
+                      message="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_MESSAGE"
+        
+                      hint="COM_BIGBLUEBUTTON_CONFIG_BBB_URL_HINT"
+        
+                      autocomplete="on" />
+	<!--  Bbb_salt Field. Type: Text. (joomla) -->
+	<field type="text"
+        
+                      name="bbb_salt"
+        
+                      label="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_LABEL"
+        
+                      size="10"
+        
+                      maxlength="50"
+        
+                      default="8cd8ef52e8e101574e400365b55e11a6"
+        
+                      description="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_DESCRIPTION"
+        
+                      class="text_area"
+        
+                      readonly="false"
+        
+                      disabled="false"
+        
+                      required="true"
+        
+                      filter="STRING"
+        
+                      message="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_MESSAGE"
+        
+                      hint="COM_BIGBLUEBUTTON_CONFIG_BBB_SALT_HINT"
+        
+                      autocomplete="on" />
+	<!--  Logo Field. Type: Media. (joomla) -->
+	<field type="media"
+        
+                      name="logo"
+        
+                      label="COM_BIGBLUEBUTTON_CONFIG_LOGO_LABEL"
+        
+                      description="COM_BIGBLUEBUTTON_CONFIG_LOGO_DESCRIPTION"
+        
+                      directory=""
+        
+                      preview="false" />
+	<!--  Copyright Field. Type: Text. (joomla) -->
+	<field type="text"
+        
+                      name="copyright"
+        
+                      label="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_LABEL"
+        
+                      size="10"
+        
+                      maxlength="50"
+        
+                      default=""
+        
+                      description="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_DESCRIPTION"
+        
+                      class="text_area"
+        
+                      readonly="false"
+        
+                      disabled="false"
+        
+                      required="false"
+        
+                      filter="STRING"
+        
+                      message="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_MESSAGE"
+        
+                      hint="COM_BIGBLUEBUTTON_CONFIG_COPYRIGHT_HINT"
+        
+                      autocomplete="on" />
 		<field name="autorTitle"
 			type="spacer"
 			label="COM_BIGBLUEBUTTON_CONFIG_AUTHOR"

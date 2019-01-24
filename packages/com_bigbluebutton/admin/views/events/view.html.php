@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla view library
-jimport('joomla.application.component.view');
 
 /**
  * Bigbluebutton View class for the Events
@@ -119,7 +116,7 @@ class BigbluebuttonViewEvents extends JViewLegacy
 				// add the button to the page
 				$dhtml = $layout->render(array('title' => $title));
 				$bar->appendButton('Custom', $dhtml, 'batch');
-			} 
+			}
 
 			if ($this->state->get('filter.published') == -2 && ($this->canState && $this->canDelete))
 			{
@@ -134,7 +131,7 @@ class BigbluebuttonViewEvents extends JViewLegacy
 			{
 				JToolBarHelper::custom('events.exportData', 'download', '', 'COM_BIGBLUEBUTTON_EXPORT_DATA', true);
 			}
-		} 
+		}
 
 		if ($this->canDo->get('core.import') && $this->canDo->get('event.import'))
 		{
@@ -185,7 +182,24 @@ class BigbluebuttonViewEvents extends JViewLegacy
 				'batch[access]',
 				JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text')
 			);
-		} 
+		}
+
+		// Category Filter.
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_bigbluebutton.events'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
+
+		if ($this->canBatch && $this->canCreate && $this->canEdit)
+		{
+			// Category Batch selection.
+			JHtmlBatch_::addListSelection(
+				JText::_('COM_BIGBLUEBUTTON_KEEP_ORIGINAL_CATEGORY'),
+				'batch[category]',
+				JHtml::_('select.options', JHtml::_('category.options', 'com_bigbluebutton.events'), 'value', 'text')
+			);
+		}
 	}
 
 	/**
@@ -232,6 +246,7 @@ class BigbluebuttonViewEvents extends JViewLegacy
 			'a.sorting' => JText::_('JGRID_HEADING_ORDERING'),
 			'a.published' => JText::_('JSTATUS'),
 			'a.event_title' => JText::_('COM_BIGBLUEBUTTON_EVENT_EVENT_TITLE_LABEL'),
+			'c.category_title' => JText::_('COM_BIGBLUEBUTTON_EVENT_EVENT_CATEGORY'),
 			'a.event_start' => JText::_('COM_BIGBLUEBUTTON_EVENT_EVENT_START_LABEL'),
 			'a.event_end' => JText::_('COM_BIGBLUEBUTTON_EVENT_EVENT_END_LABEL'),
 			'g.title' => JText::_('COM_BIGBLUEBUTTON_EVENT_MEETING_ID_LABEL'),

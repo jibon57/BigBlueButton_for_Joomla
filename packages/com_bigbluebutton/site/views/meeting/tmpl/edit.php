@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
@@ -19,17 +19,11 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.calendar');
-$componentParams = JComponentHelper::getParams('com_bigbluebutton');
-$language = JFactory::getLanguage();
-$language->load('com_bigbluebutton', JPATH_ADMINISTRATOR);
-
-if (!$this->canDo->get('meeting.create')) {
-	JFactory::getApplication()->enqueueMessage(JText::_('JLIB_RULES_NOT_ALLOWED'), 'error');
-	return false;
-}
+$componentParams = $this->params; // will be removed just use $this->params instead
 ?>
 <?php echo $this->toolbar->render(); ?>
-<form action="<?php echo JRoute::_('index.php?option=com_bigbluebutton&layout=edit&id='.(int) $this->item->id.$this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_bigbluebutton&layout=edit&id='. (int) $this->item->id . $this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<div>
 
 <div class="form-horizontal">
 
@@ -43,11 +37,19 @@ if (!$this->canDo->get('meeting.create')) {
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+	<?php $this->ignore_fieldsets = array('details','metadata','vdmmetadata','accesscontrol'); ?>
+	<?php $this->tab_name = 'meetingTab'; ?>
+	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 	<?php if ($this->canDo->get('meeting.delete') || $this->canDo->get('meeting.edit.created_by') || $this->canDo->get('meeting.edit.state') || $this->canDo->get('meeting.edit.created')) : ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'meetingTab', 'publishing', JText::_('COM_BIGBLUEBUTTON_MEETING_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
-			<?php echo JLayoutHelper::render('meeting.publishing', $this); ?>
-			<?php echo JLayoutHelper::render('meeting.metadata', $this); ?>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('meeting.publishing', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('meeting.metadata', $this); ?>
+			</div>
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
@@ -77,39 +79,10 @@ if (!$this->canDo->get('meeting.create')) {
 		<input type="hidden" name="task" value="meeting.edit" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+	</div>
 </div>
 </form>
 
 <script type="text/javascript">
-
-// #jform_record listeners for record_vvvvvvv function
-jQuery('#jform_record').on('keyup',function()
-{
-	var record_vvvvvvv = jQuery("#jform_record").val();
-	vvvvvvv(record_vvvvvvv);
-
-});
-jQuery('#adminForm').on('change', '#jform_record',function (e)
-{
-	e.preventDefault();
-	var record_vvvvvvv = jQuery("#jform_record").val();
-	vvvvvvv(record_vvvvvvv);
-
-});
-
-// #jform_branding listeners for branding_vvvvvvw function
-jQuery('#jform_branding').on('keyup',function()
-{
-	var branding_vvvvvvw = jQuery("#jform_branding input[type='radio']:checked").val();
-	vvvvvvw(branding_vvvvvvw);
-
-});
-jQuery('#adminForm').on('change', '#jform_branding',function (e)
-{
-	e.preventDefault();
-	var branding_vvvvvvw = jQuery("#jform_branding input[type='radio']:checked").val();
-	vvvvvvw(branding_vvvvvvw);
-
-});
-
+jQuery('#jform_record').on('keyup',function(){var record_vvvvvvv=jQuery("#jform_record").val();vvvvvvv(record_vvvvvvv)});jQuery('#adminForm').on('change','#jform_record',function(e){e.preventDefault();var record_vvvvvvv=jQuery("#jform_record").val();vvvvvvv(record_vvvvvvv)});jQuery('#jform_branding').on('keyup',function(){var branding_vvvvvvw=jQuery("#jform_branding input[type='radio']:checked").val();vvvvvvw(branding_vvvvvvw)});jQuery('#adminForm').on('change','#jform_branding',function(e){e.preventDefault();var branding_vvvvvvw=jQuery("#jform_branding input[type='radio']:checked").val();vvvvvvw(branding_vvvvvvw)})
 </script>

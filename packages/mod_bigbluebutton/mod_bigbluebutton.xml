@@ -7,7 +7,7 @@
 	<authorUrl>www.hoicoimasti.com</authorUrl>
 	<copyright>Copyright (C) 2018  hoicoimasti.com. All rights reserved.</copyright>	
 	<license>MIT</license>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<description></description>
 	<files>
 		<filename module="mod_bigbluebutton">mod_bigbluebutton.php</filename>
@@ -24,6 +24,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field
+					name="showCat"
+					type="radio"
+					label="Enable Category"
+					description="Show Category filter"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer">
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+				</field>
 				<field name="classname" type="text" default="" label="Class Name" description="Class Name Description" />
 			</fieldset>
 		</fields>

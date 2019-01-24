@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
@@ -12,24 +12,33 @@
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-// import Joomla controlleradmin library
-jimport('joomla.application.component.controlleradmin');
-
 /**
  * Events Controller
  */
 class BigbluebuttonControllerEvents extends JControllerAdmin
 {
-	protected $text_prefix = 'COM_BIGBLUEBUTTON_EVENTS';
 	/**
-	 * Proxy for getModel.
-	 * @since	2.5
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
-	public function getModel($name = 'Event', $prefix = 'BigbluebuttonModel', $config = array())
+	protected $text_prefix = 'COM_BIGBLUEBUTTON_EVENTS';
+
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JModelLegacy  The model.
+	 *
+	 * @since   1.6
+	 */
+	public function getModel($name = 'Event', $prefix = 'BigbluebuttonModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	public function exportData()
@@ -93,7 +102,7 @@ class BigbluebuttonControllerEvents extends JControllerAdmin
 		$message = JText::_('COM_BIGBLUEBUTTON_IMPORT_FAILED');
 		$this->setRedirect(JRoute::_('index.php?option=com_bigbluebutton&view=events', false), $message, 'error');
 		return;
-	}  
+	}
 
 	function reSendEmail(){
 		

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
@@ -19,16 +19,11 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.calendar');
-$componentParams = JComponentHelper::getParams('com_bigbluebutton');
-$language = JFactory::getLanguage();
-$language->load('com_bigbluebutton', JPATH_ADMINISTRATOR);
-if (!$this->canDo->get('event.create')) {
-	JFactory::getApplication()->enqueueMessage(JText::_('JLIB_RULES_NOT_ALLOWED'), 'error');
-	return false;
-}
+$componentParams = $this->params; // will be removed just use $this->params instead
 ?>
 <?php echo $this->toolbar->render(); ?>
-<form action="<?php echo JRoute::_('index.php?option=com_bigbluebutton&layout=edit&id='.(int) $this->item->id.$this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_bigbluebutton&layout=edit&id='. (int) $this->item->id . $this->referral); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<div>
 
 <div class="form-horizontal">
 
@@ -42,11 +37,19 @@ if (!$this->canDo->get('event.create')) {
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+	<?php $this->ignore_fieldsets = array('details','metadata','vdmmetadata','accesscontrol'); ?>
+	<?php $this->tab_name = 'eventTab'; ?>
+	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 	<?php if ($this->canDo->get('event.delete') || $this->canDo->get('event.edit.created_by') || $this->canDo->get('core.edit.state') || $this->canDo->get('event.edit.created')) : ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'eventTab', 'publishing', JText::_('COM_BIGBLUEBUTTON_EVENT_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
-			<?php echo JLayoutHelper::render('event.publishing', $this); ?>
-			<?php echo JLayoutHelper::render('event.metadata', $this); ?>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('event.publishing', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('event.metadata', $this); ?>
+			</div>
 		</div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
@@ -76,41 +79,12 @@ if (!$this->canDo->get('event.create')) {
 		<input type="hidden" name="task" value="event.edit" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+	</div>
 </div>
 </form>
 
 <script type="text/javascript">
-
-// #jform_timezone listeners for timezone_vvvvvvx function
-jQuery('#jform_timezone').on('keyup',function()
-{
-	var timezone_vvvvvvx = jQuery("#jform_timezone input[type='radio']:checked").val();
-	vvvvvvx(timezone_vvvvvvx);
-
-});
-jQuery('#adminForm').on('change', '#jform_timezone',function (e)
-{
-	e.preventDefault();
-	var timezone_vvvvvvx = jQuery("#jform_timezone input[type='radio']:checked").val();
-	vvvvvvx(timezone_vvvvvvx);
-
-});
-
-// #jform_emails listeners for emails_vvvvvvy function
-jQuery('#jform_emails').on('keyup',function()
-{
-	var emails_vvvvvvy = jQuery("#jform_emails").val();
-	vvvvvvy(emails_vvvvvvy);
-
-});
-jQuery('#adminForm').on('change', '#jform_emails',function (e)
-{
-	e.preventDefault();
-	var emails_vvvvvvy = jQuery("#jform_emails").val();
-	vvvvvvy(emails_vvvvvvy);
-
-});
-
+jQuery('#jform_timezone').on('keyup',function(){var timezone_vvvvvvx=jQuery("#jform_timezone input[type='radio']:checked").val();vvvvvvx(timezone_vvvvvvx)});jQuery('#adminForm').on('change','#jform_timezone',function(e){e.preventDefault();var timezone_vvvvvvx=jQuery("#jform_timezone input[type='radio']:checked").val();vvvvvvx(timezone_vvvvvvx)});jQuery('#jform_emails').on('keyup',function(){var emails_vvvvvvy=jQuery("#jform_emails").val();vvvvvvy(emails_vvvvvvy)});jQuery('#adminForm').on('change','#jform_emails',function(e){e.preventDefault();var emails_vvvvvvy=jQuery("#jform_emails").val();vvvvvvy(emails_vvvvvvy)})
 
 
 jQuery('#jform_event_start').datetimepicker({

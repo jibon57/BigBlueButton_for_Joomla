@@ -1,19 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// import Joomla modelitem library
-jimport('joomla.application.component.modelitem');
 
 /**
  * Bigbluebutton Meetingview Model
@@ -105,8 +102,8 @@ class BigbluebuttonModelMeetingview extends JModelItem
 
 				// Get from #__bigbluebutton_meeting as a
 				$query->select($db->quoteName(
-			array('a.id','a.asset_id','a.meetingid','a.title','a.alias','a.description','a.moderatorpw','a.attendeepw','a.maxparticipants','a.record','a.duration','a.enable_htmlfive','a.branding','a.copyright','a.logo','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
-			array('id','asset_id','meetingid','title','alias','description','moderatorpw','attendeepw','maxparticipants','record','duration','enable_htmlfive','branding','copyright','logo','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
+			array('a.id','a.asset_id','a.meetingid','a.title','a.catid','a.alias','a.description','a.moderatorpw','a.attendeepw','a.maxparticipants','a.record','a.duration','a.enable_htmlfive','a.branding','a.copyright','a.logo','a.assign_to','a.join_url','a.published','a.created_by','a.modified_by','a.created','a.modified','a.version','a.hits','a.ordering'),
+			array('id','asset_id','meetingid','title','catid','alias','description','moderatorpw','attendeepw','maxparticipants','record','duration','enable_htmlfive','branding','copyright','logo','assign_to','join_url','published','created_by','modified_by','created','modified','version','hits','ordering')));
 				$query->from($db->quoteName('#__bigbluebutton_meeting', 'a'));
 				$query->where('a.id = ' . (int) $pk);
 				// Get where a.published is 1
@@ -128,11 +125,13 @@ class BigbluebuttonModelMeetingview extends JModelItem
 			// Load the JEvent Dispatcher
 			JPluginHelper::importPlugin('content');
 			$this->_dispatcher = JEventDispatcher::getInstance();
+				// Check if item has params, or pass whole item.
+				$params = (isset($data->params) && BigbluebuttonHelper::checkJson($data->params)) ? json_decode($data->params) : $data;
 				// Make sure the content prepare plugins fire on description
 				$_description = new stdClass();
 				$_description->text =& $data->description; // value must be in text
 				// Since all values are now in text (Joomla Limitation), we also add the field name (description) to context
-				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.meetingview.description', &$_description, &$this->params, 0));
+				$this->_dispatcher->trigger("onContentPrepare", array('com_bigbluebutton.meetingview.description', &$_description, &$params, 0));
 
 				// set data object to item.
 				$this->_item[$pk] = $data;
@@ -153,6 +152,5 @@ class BigbluebuttonModelMeetingview extends JModelItem
 		}
 
 		return $this->_item[$pk];
-	} 
-  
+	}
 }

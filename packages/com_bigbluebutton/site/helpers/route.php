@@ -1,20 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
-// Component Helper
-jimport('joomla.application.component.helper');
-jimport('joomla.application.categories');
 
 /**
  * Bigbluebutton Route Helper
@@ -291,7 +287,9 @@ abstract class BigbluebuttonHelperRoute
 			throw new Exception('First parameter must be JCategoryNode');			
 		}
 	
-		$views = array();
+		$views = array(
+			"com_bigbluebutton.meetings" => "meeting",
+			"com_bigbluebutton.events" => "event");
 		$view = $views[$category->extension];
        
 		if ($id < 1 || !($category instanceof JCategoryNode))

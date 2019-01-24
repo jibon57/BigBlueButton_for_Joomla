@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
@@ -13,9 +13,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 use Joomla\Registry\Registry;
-
-// import Joomla modelform library
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Bigbluebutton Meeting Model
@@ -49,6 +46,9 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 	 */
 	public function getTable($type = 'meeting', $prefix = 'BigbluebuttonTable', $config = array())
 	{
+		// add table path for when model gets used from other component
+		$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_bigbluebutton/tables');
+		// get instance of the table
 		return JTable::getInstance($type, $prefix, $config);
 	}
     
@@ -93,22 +93,25 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 		}
 
 		return $item;
-	} 
+	}
 
 	/**
 	 * Method to get the record form.
 	 *
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array    $options   Optional array of options for the form creation.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true, $options = array('control' => 'jform'))
 	{
+		// set load data option
+		$options['load_data'] = $loadData;
 		// Get the form.
-		$form = $this->loadForm('com_bigbluebutton.meeting', 'meeting', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_bigbluebutton.meeting', 'meeting', $options);
 
 		if (empty($form))
 		{
@@ -171,10 +174,14 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 		// Only load these values if no id is found
 		if (0 == $id)
 		{
-			// Set redirected field name
-			$redirectedField = $jinput->get('ref', null, 'STRING');
-			// Set redirected field value
-			$redirectedValue = $jinput->get('refid', 0, 'INT');
+			// Set redirected view name
+			$redirectedView = $jinput->get('ref', null, 'STRING');
+			// Set field name (or fall back to view name)
+			$redirectedField = $jinput->get('field', $redirectedView, 'STRING');
+			// Set redirected view id
+			$redirectedId = $jinput->get('refid', 0, 'INT');
+			// Set field id (or fall back to redirected view id)
+			$redirectedValue = $jinput->get('field_id', $redirectedId, 'INT');
 			if (0 != $redirectedValue && $redirectedField)
 			{
 				// Now set the local-redirected field default value
@@ -375,7 +382,7 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 			}
 		}
 		return parent::validate($form, $data, $group);
-	} 
+	}
 
 	/**
 	 * Method to get the unique fields of this table.
@@ -566,6 +573,21 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 				$values['published'] = 0;
 		}
 
+		if (isset($values['category']) && (int) $values['category'] > 0 && !static::checkCategoryId($values['category']))
+		{
+			return false;
+		}
+		elseif (isset($values['category']) && (int) $values['category'] > 0)
+		{
+			// move the category value to correct field name
+			$values['catid'] = $values['category'];
+			unset($values['category']);
+		}
+		elseif (isset($values['category']))
+		{
+			unset($values['category']);
+		}
+
 		$newIds = array();
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -599,7 +621,15 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 					continue;
 				}
 			}
-			list($this->table->title, $this->table->alias) = $this->_generateNewTitle($this->table->alias, $this->table->title);
+
+			if (isset($values['catid']))
+			{
+				static::generateTitle((int) $values['catid'], $this->table);
+			}
+			else
+			{
+				static::generateTitle((int) $this->table->catid, $this->table);
+			}
 
 			// insert all set values
 			if (BigbluebuttonHelper::checkArray($values))
@@ -660,7 +690,7 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 		$this->cleanCache();
 
 		return $newIds;
-	} 
+	}
 
 	/**
 	 * Batch move items to a new category
@@ -697,6 +727,22 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 		}
 		// remove move_copy from array
 		unset($values['move_copy']);
+
+		if (isset($values['category']) && (int) $values['category'] > 0 && !static::checkCategoryId($values['category']))
+		{
+			return false;
+		}
+		elseif (isset($values['category']) && (int) $values['category'] > 0)
+		{
+			// move the category value to correct field name
+			$values['catid'] = $values['category'];
+			unset($values['category']);
+		}
+		elseif (isset($values['category']))
+		{
+			unset($values['category']);
+		}
+
 
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
@@ -792,7 +838,7 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 			$metadata = new JRegistry;
 			$metadata->loadArray($data['metadata']);
 			$data['metadata'] = (string) $metadata;
-		} 
+		}
 
 		if($data['moderatorpw'] == $data['attendeepw']){
 			JFactory::getApplication()->enqueueMessage(JText::_("COM_BIGBLUEBUTTON_PASSWORD_CANT_BE_SAME"), 'warning');
@@ -815,7 +861,7 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->_generateNewTitle($data['alias'], $data['title']);
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
@@ -846,12 +892,13 @@ class BigbluebuttonModelMeeting extends JModelAdmin
 
 				$table = JTable::getInstance('meeting', 'bigbluebuttonTable');
 
-				if ($table->load(array('alias' => $data['alias'])) && ($table->id != $data['id'] || $data['id'] == 0))
+				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])) && ($table->id != $data['id'] || $data['id'] == 0))
 				{
 					$msg = JText::_('COM_BIGBLUEBUTTON_MEETING_SAVE_WARNING');
 				}
 
-				$data['alias'] = $this->_generateNewTitle($data['alias']);
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['alias'] = $alias;
 
 				if (isset($msg))
 				{

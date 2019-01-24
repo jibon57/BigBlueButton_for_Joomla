@@ -15,6 +15,10 @@ JHtml::_('jquery.framework');
  
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery("document").ready(function($){
+
+		var mdMeetings = \''. json_encode($items) .'\';
+		mdMeetings = JSON.parse(mdMeetings);
+
 		$("#bbbLoginModuleFrom").submit(function(e){
 			e.preventDefault();
 			var data = $(this).serialize();
@@ -40,18 +44,64 @@ JFactory::getDocument()->addScriptDeclaration('
 					$("#statusModule").html("'.JText::_("COM_BIGBLUEBUTTON_CANT_LOGIN").'");
 				}
 			})
-		})
+		});
+
+		$("#moduleCategoryid").on("change", function(e){
+			var catid = $(this).val();
+			mdGetMeetings(catid);
+		});
+
+		var initVal = $("#moduleCategoryid").val();
+		if(initVal){
+			mdGetMeetings(initVal);
+		}
+
+		function mdGetMeetings(catid){
+
+			$("#ModuleMeetingId").find("option").remove();
+
+			for(var i = 0; i < mdMeetings.length; i++){
+				var met = mdMeetings[i];
+
+				if(met.catid == catid){
+
+					$("#ModuleMeetingId")
+					.append($("<option></option>")
+                    .attr("value", met.id)
+                    .text(met.title)); 
+
+				}
+			}
+		}
 	})
 ');
 ?>
 <form id="bbbLoginModuleFrom" class="<?php echo $params->get( 'classname'); ?> uk-form uk-form-horizontal">
     <fieldset>
 		<div style="color: red; margin-bottom: 10px;" id="statusModule"></div>
+		<?php if($enableCat == 1): ?>
+        <div class="uk-form-row">
+			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_CATEGORY'); ?></label>
+			<div class="uk-form-controls">
+				<?php 
+				 $catOptions = JHtml::_('category.options', 'com_bigbluebutton.meetings'); 
+				 echo JHtmlSelect::genericlist($catOptions, 'moduleCategoryid', 'class="moduleCategoryid"', 'value', 'text');
+				?>
+			</div>
+		</div>
+		<?php endif; ?>
 
         <div class="uk-form-row">
 			<label class="uk-form-label" for=""><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_ROOM'); ?></label>
 			<div class="uk-form-controls">
-				<?php echo JHtmlSelect::genericlist($options, 'meetingId', 'class="meeting"', 'value', 'text'); ?>
+				<?php if($enableCat == 1): ?>
+					<select id="ModuleMeetingId" name="meetingId" class="meeting"></select>
+				<?php endif; ?>
+				<?php 
+				if($enableCat == 0){
+					echo JHtmlSelect::genericlist($options, 'meetingId', 'class="meeting"', 'value', 'text'); 
+				}
+				?>
 			</div>
 		</div>
 		

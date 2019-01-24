@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__bigbluebutton_meeting` (
 	`assign_to` INT(7) NOT NULL DEFAULT 0,
 	`attendeepw` VARCHAR(10) NOT NULL DEFAULT '',
 	`branding` INT(1) NOT NULL DEFAULT 0,
+	`catid` INT(7) NOT NULL DEFAULT 0,
 	`copyright` VARCHAR(50) NULL DEFAULT '',
 	`description` TEXT NOT NULL,
 	`duration` INT(7) NOT NULL DEFAULT 0,
@@ -39,13 +40,15 @@ CREATE TABLE IF NOT EXISTS `#__bigbluebutton_meeting` (
 	KEY `idx_modifiedby` (`modified_by`),
 	KEY `idx_state` (`published`),
 	KEY `idx_title` (`title`),
+	KEY `idx_catid` (`catid`),
 	KEY `idx_alias` (`alias`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
 
 CREATE TABLE IF NOT EXISTS `#__bigbluebutton_event` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`asset_id` INT(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
 	`alias` CHAR(64) NOT NULL DEFAULT '',
+	`catid` INT(7) NOT NULL DEFAULT 0,
 	`custom_event_pass` VARCHAR(100) NOT NULL DEFAULT '',
 	`emails` TEXT NOT NULL,
 	`event_des` TEXT NOT NULL,
@@ -80,9 +83,10 @@ CREATE TABLE IF NOT EXISTS `#__bigbluebutton_event` (
 	KEY `idx_modifiedby` (`modified_by`),
 	KEY `idx_state` (`published`),
 	KEY `idx_event_title` (`event_title`),
+	KEY `idx_catid` (`catid`),
 	KEY `idx_meeting_id` (`meeting_id`),
 	KEY `idx_alias` (`alias`)
-) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_general_ci;
 
 
 

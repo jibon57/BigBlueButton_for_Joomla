@@ -1,16 +1,16 @@
 <?php
 /**
- * @package    BigBlueButton
+ * @package    Joomla.Component.Builder
  *
  * @created    17th July, 2018
- * @author     Jibon L. Costa <jiboncosta57@gmail.com>
- * @website    https://www.hoicoimasti.com
+ * @author     Jibon L. Costa <https://www.hoicoimasti.com>
+ * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
  * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
 // No direct access to this file
-defined('_JEXEC') or die('Restricted access'); 
+defined('_JEXEC') or die('Restricted access');
 
 ?>
 <tr>
@@ -31,6 +31,9 @@ defined('_JEXEC') or die('Restricted access');
 	<?php endif; ?>
 	<th class="nowrap" >
 			<?php echo JHtml::_('grid.sort', 'COM_BIGBLUEBUTTON_EVENT_EVENT_TITLE_LABEL', 'event_title', $this->listDirn, $this->listOrder); ?>
+	</th>
+	<th class="nowrap hidden-phone" >
+			<?php echo JHtml::_('grid.sort', 'COM_BIGBLUEBUTTON_EVENT_EVENT_CATEGORY', 'catid', $this->listDirn, $this->listOrder); ?>
 	</th>
 	<th class="nowrap hidden-phone" >
 			<?php echo JHtml::_('grid.sort', 'COM_BIGBLUEBUTTON_EVENT_EVENT_START_LABEL', 'event_start', $this->listDirn, $this->listOrder); ?>
