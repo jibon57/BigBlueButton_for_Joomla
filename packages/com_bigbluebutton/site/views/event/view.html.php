@@ -5,7 +5,7 @@
  * @created    17th July, 2018
  * @author     Jibon L. Costa <https://www.hoicoimasti.com>
  * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
- * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @copyright  Copyright (C) 2019 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
@@ -192,7 +192,7 @@ class BigbluebuttonViewEvent extends JViewLegacy
 		}
 		$this->document->setTitle(JText::_($isNew ? 'COM_BIGBLUEBUTTON_EVENT_NEW' : 'COM_BIGBLUEBUTTON_EVENT_EDIT'));
 		// we need this to fix the form display (TODO)
-		$this->document->addStyleSheet(JURI::root()."administrator/templates/isis/css/template.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');
+		//$this->document->addStyleSheet(JURI::root()."administrator/templates/isis/css/template.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');
 		$this->document->addScript(JURI::root()."administrator/templates/isis/js/template.js", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/javascript');
 		// the default style of this view
 		$this->document->addStyleSheet(JURI::root()."components/com_bigbluebutton/assets/css/event.css", (BigbluebuttonHelper::jVersion()->isCompatible('3.8.0')) ? array('version' => 'auto') : 'text/css');

@@ -5,7 +5,7 @@
  * @created    17th July, 2018
  * @author     Jibon L. Costa <https://www.hoicoimasti.com>
  * @github     Joomla Component Builder <https://github.com/vdm-io/Joomla-Component-Builder>
- * @copyright  Copyright (C) 2018 Hoicoi Extension. All Rights Reserved
+ * @copyright  Copyright (C) 2019 Hoicoi Extension. All Rights Reserved
  * @license    MIT
  */
 
@@ -63,7 +63,7 @@ $doc->addScriptDeclaration('
 		<div class="loginFrom">
 			<form id="bbbLoginFrom" class="uk-form uk-form-horizontal">
 				<fieldset>
-					<legend><?php echo JText::_('COM_BIGBLUEBUTTON_MEEETING_LOGIN_FORM'); ?></legend>
+					<legend><?php echo JText::_('COM_BIGBLUEBUTTON_MEETING_LOGIN'); ?></legend>
 					<div style="color: red; margin-bottom: 10px;" id="status"></div>
 
 					<div class="uk-form-row">
