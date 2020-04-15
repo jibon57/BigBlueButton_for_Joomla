@@ -33,5 +33,6 @@ How to use this extension?
 
 5. Go to menu manager to add item in menu or can use module.
 
+**Looking for [BigBlueButton Hosting](https://www.mynaparrot.com/classroom)? Get your [free trial](https://www.mynaparrot.com/try-it-for-free) now.** 
 
 Community Support: https://groups.google.com/forum/?hl=en#!topic/bigbluebutton-users/2KR17pYPh70
