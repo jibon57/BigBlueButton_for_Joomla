@@ -75,7 +75,7 @@ class BBBManageClass{
 		
 		if($gotoBBB){
 
-			$result = $this->prepareBBBUrl($data->meetingid, $data->title, $studentPass, $teacherPass, $isStudent, $username); 
+			$result = $this->prepareBBBUrl(md5($data->meetingid), $data->title, $studentPass, $teacherPass, $isStudent, $username); 
 
 			if($result['status']){
 				$output['url'] = $result['url'];
@@ -103,7 +103,7 @@ class BBBManageClass{
         $meetingId = $db->loadResult();
 		
 		$recordingParams = new GetRecordingsParameters();
-		$recordingParams->setMeetingId($meetingId);
+		$recordingParams->setMeetingId(md5($meetingId));
 		
 		$bbb = new BigBlueButton();
 		$response = $bbb->getRecordings($recordingParams);
